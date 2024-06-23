@@ -8,17 +8,13 @@ tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 model = BertModel.from_pretrained('bert-base-uncased')
 #paragraphs
 paragraphs = [
-    "The team encountered high latency due to a large dataset, which was solved by upgrading the server.",
-    "Slow response time was addressed by optimizing the query execution.",
-    "Low accuracy in the model was improved by gathering more diverse data.",
-    "Network issues were frequent, and the solution was to check the connection regularly.",
-    "Data inconsistency problems were solved by implementing a robust data validation process.",
-    "A recent security breach was addressed by enhancing security measures and conducting regular audits.",
-    "Poor performance was identified to be due to inefficient code, which was optimized to improve speed.",
-    "The software faced numerous bugs, and debugging helped in stabilizing the application.",
-    "System crashes were frequent because of outdated software, which was updated to the latest version.",
-    "User complaints about the interface were resolved by providing thorough user training and updating the user guide."
+    "Alice loves hamburgers with extra pickles, and Bob agrees, preferring them with cheese and bacon.",
+    "Carol mentions her struggle to find good vegetarian options, while Dave suggests trying a portobello mushroom burger.",
+    "Eve shares a challenge of making burgers at home until she found a recipe using breadcrumbs for better texture.",
+    "Frank offers a tip about mixing beef and pork for juicier patties, and Grace recommends grilling onions for extra flavor.",
+    "Henry concludes by saying that trying different sauces, like aioli or BBQ, can elevate the burger experience."
 ]
+
 
 # Initialize existing entities and relationships
 prev_text = ""

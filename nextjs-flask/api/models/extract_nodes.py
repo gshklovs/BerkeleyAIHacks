@@ -71,40 +71,42 @@ def extract_entities_and_relationships(
         )
     elif mode == "Build":
         prompt = ChatMessage(
-            role="user",
-            content=(
-                "Extract detailed entities representing problems and solutions without excessive redundancy from the following text:\n"
-                f"{merged_text}\n"
-                "Current entities:\n" + current_entities + "\n"
-                "Current relationships:\n" + current_relationships + "\n"
-                "BE DETAILED INITIALLY, THEN COMPARE TO CURRENT RELATIONSHIPS AND SEE IF FIT TO ADD NEW ONE\n"
-                "ENSURE 'SOLVED BY' RELATIONSHIPS ONLY CONNECT TO LEAF NODE SOLUTIONS THAT DO NOT REQUIRE FURTHER ACTIONS OR DEPENDENCIES\n"
-                "ENSURE 'DEPENDS ON' RELATIONSHIPS INDICATE UNSOLVED ISSUES\n"
-                "DO NOT HAVE DUPLICATES, MAKE SURE ENTITIES WITH SAME MEANING AREN'T CREATED\n"
-                "Please provide the output strictly in the following format with no variance:\n"
-                "1. Source Entity: <problem/solution entity>\n"
-                "2. Relationship: <relationship>\n"
-                "3. Destination Entity: <problem/solution entity>\n"
-                "Ensure that each triplet is listed in the exact same format for consistency and avoid redundancy."
-                "\nExamples:\n"
-                "1. Source Entity: high latency\n2. Relationship: depends on\n3. Destination Entity: large dataset\n"
-                "1. Source Entity: large dataset\n2. Relationship: solved by\n3. Destination Entity: upgrading the server\n"
-                "1. Source Entity: slow response time\n2. Relationship: depends on\n3. Destination Entity: large dataset\n"
-                "1. Source Entity: slow response time\n2. Relationship: solved by\n3. Destination Entity: optimizing the query execution\n"
-                "1. Source Entity: low accuracy\n2. Relationship: solved by\n3. Destination Entity: gathering more diverse data\n"
-                "1. Source Entity: network issues\n2. Relationship: solved by\n3. Destination Entity: check connection regularly\n"
-                "1. Source Entity: data inconsistency\n2. Relationship: solved by\n3. Destination Entity: robust data validation process\n"
-                "1. Source Entity: recent security breach\n2. Relationship: solved by\n3. Destination Entity: enhancing security measures and conducting regular audits\n"
-                "1. Source Entity: poor performance\n2. Relationship: depends on\n3. Destination Entity: inefficient code\n"
-                "1. Source Entity: poor performance\n2. Relationship: solved by\n3. Destination Entity: optimizing the query execution\n"
-                "1. Source Entity: software bugs\n2. Relationship: solved by\n3. Destination Entity: debugging\n"
-                "1. Source Entity: system crashes\n2. Relationship: depends on\n3. Destination Entity: outdated software\n"
-                "1. Source Entity: system crashes\n2. Relationship: solved by\n3. Destination Entity: updating software to the latest version\n"
-                "1. Source Entity: user complaints\n2. Relationship: solved by\n3. Destination Entity: user training\n"
-                "1. Source Entity: user complaints\n2. Relationship: solved by\n3. Destination Entity: updating the user guide\n"
-                "OUTPUT MODEL IN THIS FORMAT AND DETAIL\n"
-            )
+        role="user",
+        content=(
+            "Extract detailed entities representing problems and solutions without excessive redundancy from the following text:\n"
+            f"{merged_text}\n"
+            "Current entities:\n" + current_entities + "\n"
+            "Current relationships:\n" + current_relationships + "\n"
+            "BE DETAILED INITIALLY, THEN COMPARE TO CURRENT RELATIONSHIPS AND SEE IF FIT TO ADD NEW ONE\n"
+            "ENSURE 'SOLVED BY' RELATIONSHIPS ONLY CONNECT TO LEAF NODE SOLUTIONS THAT DO NOT REQUIRE FURTHER ACTIONS OR DEPENDENCIES\n"
+            "ENSURE 'DEPENDS ON' RELATIONSHIPS INDICATE UNSOLVED ISSUES\n"
+            "AVOID CREATING DUPLICATES OR AMBIGUOUS NODES. FOCUS ON CLEAR AND DISTINCT ENTITY NAMES.\n"
+            "MAKE SURE ENTITIES CLOSELY ALIGN TO TOPICS IN CONVERSATION, EVEN IF IT ISN'T EXPLICITLY TECHINCAL\n"
+            "Please provide the output strictly in the following format with no variance:\n"
+            "1. Source Entity: <problem/solution entity>\n"
+            "2. Relationship: <relationship>\n"
+            "3. Destination Entity: <problem/solution entity>\n"
+            "Ensure that each triplet is listed in the exact same format for consistency and avoid redundancy."
+            "\nExamples:\n"
+            "1. Source Entity: high latency\n2. Relationship: depends on\n3. Destination Entity: large dataset\n"
+            "1. Source Entity: large dataset\n2. Relationship: solved by\n3. Destination Entity: upgrading the server\n"
+            "1. Source Entity: slow response time\n2. Relationship: depends on\n3. Destination Entity: large dataset\n"
+            "1. Source Entity: slow response time\n2. Relationship: solved by\n3. Destination Entity: optimizing the query execution\n"
+            "1. Source Entity: low accuracy\n2. Relationship: solved by\n3. Destination Entity: gathering more diverse data\n"
+            "1. Source Entity: network issues\n2. Relationship: solved by\n3. Destination Entity: check connection regularly\n"
+            "1. Source Entity: data inconsistency\n2. Relationship: solved by\n3. Destination Entity: robust data validation process\n"
+            "1. Source Entity: recent security breach\n2. Relationship: solved by\n3. Destination Entity: enhancing security measures and conducting regular audits\n"
+            "1. Source Entity: poor performance\n2. Relationship: depends on\n3. Destination Entity: inefficient code\n"
+            "1. Source Entity: poor performance\n2. Relationship: solved by\n3. Destination Entity: optimizing the query execution\n"
+            "1. Source Entity: software bugs\n2. Relationship: solved by\n3. Destination Entity: debugging\n"
+            "1. Source Entity: system crashes\n2. Relationship: depends on\n3. Destination Entity: outdated software\n"
+            "1. Source Entity: system crashes\n2. Relationship: solved by\n3. Destination Entity: updating software to the latest version\n"
+            "1. Source Entity: user complaints\n2. Relationship: solved by\n3. Destination Entity: user training\n"
+            "1. Source Entity: user complaints\n2. Relationship: solved by\n3. Destination Entity: updating the user guide\n"
+            "OUTPUT MODEL IN THIS FORMAT AND DETAIL\n"
         )
+    )
+
 
     response = llm.chat(
         messages=[
