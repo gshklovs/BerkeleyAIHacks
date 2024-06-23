@@ -31,7 +31,7 @@ export default function AudioRecorder() {
   const sendAudioData = async (audioChunk: Blob) => {
     try {
       const formData = new FormData();
-      formData.append("audio", audioChunk, "audio.wav");
+      formData.append("file", audioChunk, "audio.wav");
 
       const response = await axios.post(
         "http://localhost:5328/api/record_and_build",
