@@ -7,7 +7,7 @@ from neo4j import GraphDatabase
 from models.assisted_merge import assistive_merge
 from models.extract_nodes import extract_entities_and_relationships
 from models.speech_to_text import extract_text_from_audio
-import websockets
+# import websockets
 import json
 import wave
 import threading
