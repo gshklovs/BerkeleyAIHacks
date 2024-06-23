@@ -7,6 +7,7 @@ from neo4j import GraphDatabase
 from models.assisted_merge import assistive_merge
 from models.extract_nodes import extract_entities_and_relationships
 from models.speech_to_text import extract_text_from_audio
+from models.similarities import compute_similarities
 import json
 import logging
 from logging.handlers import RotatingFileHandler
@@ -153,3 +154,121 @@ def current_path():
 def current_topic():
     result = graphdb.execute_query("MATCH (n :Entity {current: TRUE}) RETURN n")
     return result[0][0]["n"]["name"]
+
+# async def websocket_handler(websocket, path):
+#     async for message in websocket:
+#         audio_data = message
+#         with open("received_audio.wav", "ab") as audio_file:
+#             audio_file.write(audio_data)
+
+#         text_segment = extract_text_from_audio("received_audio.wav")
+#         if 'previous_text' in session:
+#             merged_text = assistive_merge([session['previous_text'], text_segment])
+#         else:
+#             merged_text = text_segment
+
+#         session['previous_text'] = merged_text
+
+#         triplets, existing_entities, existing_relationships = extract_entities_and_relationships(
+#             merged_text, existing_entities, existing_relationships
+#         )
+
+#         with graphdb.session() as db_session:
+#             with db_session.begin_transaction() as tx:
+#                 for entity in existing_entities:
+#                     tx.run("MERGE (:Entity {name: $name})", name=entity)
+#                 for src, rel, dest in existing_relationships:
+#                     tx.run("""
+#                     MATCH (a:Entity {name: $source})
+#                     MATCH (b:Entity {name: $dest})
+#                     MERGE (a)-[:RELATIONSHIP {type: $relationship}]->(b)
+#                     """, source=src, dest=dest, relationship=rel)
+#                 tx.commit()
+
+#         await websocket.send(json.dumps({'entities': list(existing_entities), 'relationships': existing_relationships}))
+
+
+@app.route("/api/record_and_build", methods=["POST"])
+def record_and_build():
+    global prev_text, global_entities, global_relationships
+
+    audio_file = request.files["file"]
+    audio_file.save("received_audio.mp3")
+    app.logger.info("Audio file saved")
+
+    text_segment = extract_text_from_audio("received_audio.mp3")
+    app.logger.info(f"Extracted text: {text_segment}")
+    if prev_text:
+        merged_text = assistive_merge([prev_text, text_segment])
+    else:
+        merged_text = text_segment
+    app.logger.info(f"Merged text: {merged_text}")
+    prev_text = merged_text
+
+    prev_entities = global_entities.copy()
+    app.logger.info(f"Previous entities: {prev_entities}")
+    prev_relationships = global_relationships.copy()
+    app.logger.info(f"Previous relationships: {prev_relationships}")
+    mode = "Build"
+    triplets, global_entities, global_relationships = (
+        extract_entities_and_relationships(
+            merged_text, mode, global_entities, global_relationships
+        )
+    )
+
+    remaining_entities = set(global_entities) - set(prev_entities)
+    remaining_relationships = set(global_relationships) - set(prev_relationships)
+
+    with graphdb.session() as db_session:
+        with db_session.begin_transaction() as tx:
+            for entity in remaining_entities:
+                tx.run("MERGE (:Entity {name: $name})", name=entity)
+            for src, rel, dest in remaining_relationships:
+                tx.run(
+                    """
+                MATCH (a:Entity {name: $source})
+                MATCH (b:Entity {name: $dest})
+                MERGE (a)-[:RELATIONSHIP {type: $relationship}]->(b)
+                """,
+                    source=src,
+                    dest=dest,
+                    relationship=rel,
+                )
+            tx.commit()
+    app.logger.info("Entities and relationships created in database")
+    return "DONE"
+
+
+@app.route("/api/create_correlation_edges", methods=["POST"])
+def create_correlation_edges():
+    global global_entities
+    
+    # Compute similarities
+    similarities = compute_similarities(global_entities)
+    threshold = 0.7  # You can adjust this threshold as needed
+    
+    correlation_edges = [
+        (entity1, entity2) for (entity1, entity2), sim in similarities.items() if sim > threshold
+    ]
+    
+    with graphdb.session() as db_session:
+        with db_session.begin_transaction() as tx:
+            for src, dest in correlation_edges:
+                tx.run(
+                    """
+                    MATCH (a:Entity {name: $source})
+                    MATCH (b:Entity {name: $dest})
+                    MERGE (a)-[:CORRELATED {similarity: $similarity}]->(b)
+                    """,
+                    source=src,
+                    dest=dest,
+                    similarity=similarities[(src, dest)],
+                )
+            tx.commit()
+    app.logger.info("Correlation edges created in database")
+    return "DONE"
+
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5328)
