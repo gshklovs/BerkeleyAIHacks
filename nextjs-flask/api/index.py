@@ -1,4 +1,6 @@
-from flask import Flask, request, session
+from flask import Flask, request
+from flask_cors import CORS
+, request, session
 from dotenv import dotenv_values
 import random
 from neo4j import GraphDatabase
@@ -8,10 +10,23 @@ from models.extract_nodes import extract_entities_and_relationships
 config = dotenv_values(".env")
 graphdb = GraphDatabase.driver(config["NEO4J_URI"], auth=(config["NEO4J_USER"], config["NEO4J_PASS"]))
 app = Flask(__name__)
+CORS(app)
 
 @app.route("/api/python")
 def hello_world():
     return "<p>Hello, World!</p>"
+
+@app.route('/api/upload_audio', methods=['POST'])
+def upload_audio():
+    audio_data = request.data
+    with open("received_audio.wav", "ab") as audio_file:
+        audio_file.write(audio_data)
+    return 'Audio received', 200
+
+if __name__ == '__main__':
+    # app.run(host='0.0.0.0', port=5328)
+    pass
+
 
 
 @app.route("/api/merge", methods=["POST"])  # needs work
