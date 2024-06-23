@@ -1,32 +1,9 @@
-2024-06-23 02:07:53,957 INFO: Audio file saved
-2024-06-23 02:07:54,489 INFO: Extracted text:  I'm sorry.
-2024-06-23 02:07:54,489 INFO: Merged text:  I'm sorry.
-2024-06-23 02:07:54,489 INFO: Previous entities: set()
-2024-06-23 02:07:54,490 INFO: Previous relationships: []
-2024-06-23 02:07:56,656 INFO: Entities and relationships created in database
-2024-06-23 02:07:58,976 INFO: Audio file saved
-2024-06-23 02:08:04,020 INFO: Audio file saved
-2024-06-23 02:08:09,055 INFO: Audio file saved
-2024-06-23 02:08:14,098 INFO: Audio file saved
-2024-06-23 02:08:19,136 INFO: Audio file saved
-2024-06-23 02:08:24,173 INFO: Audio file saved
-2024-06-23 02:08:29,218 INFO: Audio file saved
-2024-06-23 02:08:34,256 INFO: Audio file saved
-2024-06-23 02:08:39,302 INFO: Audio file saved
-2024-06-23 02:08:44,336 INFO: Audio file saved
-2024-06-23 02:08:49,387 INFO: Audio file saved
-2024-06-23 02:08:54,424 INFO: Audio file saved
-2024-06-23 02:08:59,455 INFO: Audio file saved
-2024-06-23 02:09:04,495 INFO: Audio file saved
-2024-06-23 02:09:09,539 INFO: Audio file saved
-2024-06-23 02:09:14,576 INFO: Audio file saved
-2024-06-23 02:09:19,622 INFO: Audio file saved
-2024-06-23 02:09:24,659 INFO: Audio file saved
-2024-06-23 02:09:56,850 INFO: Audio file saved
-2024-06-23 02:09:57,624 INFO: Extracted text:  recording okay let's talk about trees trees need
-2024-06-23 02:09:57,625 INFO: Merged text:  recording okay let's talk about trees trees need
-2024-06-23 02:09:57,625 INFO: Previous entities: set()
-2024-06-23 02:09:57,625 INFO: Previous relationships: []
-2024-06-23 02:10:00,066 INFO: Entities and relationships created in database
-2024-06-23 02:10:01,873 INFO: Audio file saved
-2024-06-23 02:10:04,086 INFO: Audio file saved
+2024-06-23 02:37:15,345 INFO: Previous relationships: [('unknown speaker', 'will meet', 'you'), ('you', 'will be seen by', 'unknown speaker'), ('saturday', 'is the meeting date for', 'unknown speaker and you'), ('unknown speaker and you', 'has meeting date', 'saturday'), ('unknown speaker', 'will create', 'objective'), ('unknown speaker', 'has', 'previous relationships'), ('unknown speaker', 'has', 'previous entries'), ('unknown speaker', 'will send', 'new audio file'), ('unknown speaker', 'has', 'objective'), ('you', 'will transcribe', 'sound effects'), ('sound effects', 'are made by', 'unknown speaker'), ('unknown speaker', 'will make', 'sound effects'), ('unknown speaker', 'created', 'objective')]
+2024-06-23 02:37:16,773 INFO: Entities and relationships created in database
+2024-06-23 02:37:19,501 INFO: Audio file saved
+2024-06-23 02:37:20,056 INFO: Extracted text:  It actually works. And there's merging.
+2024-06-23 02:37:20,563 INFO: Merged text: Here is the merged text:
+
+Here is the merged text: uh and then we'll see you Saturday. and we have created our objective or something like that. Very exciting! You can see all of our previous relationships and their previous entries. and every time that we send a new audio file Clap, clap, clap. Okay, now I want you to describe... transcribe i want you to transcribe the sound effects that i will be making Hello, I'm you I'm sorry. Oh, he said clap clap. I'll cut that. I said hello, I'm here and I'm sorry. Dude, it works. It actually works. And there's merging.
+2024-06-23 02:37:20,563 INFO: Previous entities: {'unknown speaker and you', 'sound effects', 'you', 'previous entries', 'saturday', 'unknown speaker', 'previous relationships', 'new audio file', 'objective'}
+2024-06-23 02:37:20,563 INFO: Previous relationships: [('unknown speaker', 'will meet', 'you'), ('you', 'will be seen by', 'unknown speaker'), ('saturday', 'is the meeting date for', 'unknown speaker and you'), ('unknown speaker and you', 'has meeting date', 'saturday'), ('unknown speaker', 'will create', 'objective'), ('unknown speaker', 'has', 'previous relationships'), ('unknown speaker', 'has', 'previous entries'), ('unknown speaker', 'will send', 'new audio file'), ('unknown speaker', 'has', 'objective'), ('you', 'will transcribe', 'sound effects'), ('sound effects', 'are made by', 'unknown speaker'), ('unknown speaker', 'will make', 'sound effects'), ('unknown speaker', 'created', 'objective')]
