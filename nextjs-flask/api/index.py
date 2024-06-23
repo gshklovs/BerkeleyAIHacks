@@ -27,4 +27,4 @@ def extract(merged_text, existing_entities=None, existing_relationships=None):
 
 @app.route("/api/speech_to_text", methods=["POST"])  # needs work
 def speech_to_text():
-    return extract_text_from_audio()
+    extract_text_from_audio()
