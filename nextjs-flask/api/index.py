@@ -241,6 +241,15 @@ def record_and_build():
     return "DONE"
 
 
+@app.route("/api/delete_all", methods=["POST"])
+def delete_nodes():
+    with graphdb.session() as db_session:
+        with db_session.begin_transaction() as tx:
+            tx.run("MATCH (n) DETACH DELETE n")
+            tx.commit()
+    return "DONE"
+
+
 @app.route("/api/create_correlation_edges", methods=["POST"])
 def create_correlation_edges():
     global global_entities
