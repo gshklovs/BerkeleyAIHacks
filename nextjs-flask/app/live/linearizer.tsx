@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { AnimatedList } from "@/components/magicui/animated-list";
  
 
-function Notification(something : string) {
+function Notification(text : string) {
     return (
       <figure
         className={cn(
@@ -21,7 +21,7 @@ function Notification(something : string) {
         <div className="flex flex-row items-center gap-3">
           <div className="flex flex-col overflow-hidden">
             <p className="text-sm font-normal dark:text-white/60">
-              {something}
+              {text}
             </p>
           </div>
         </div>
@@ -40,12 +40,10 @@ export default function LinearizeText(){
     function createList(){
         const ideas = Object.entries(data);
         const ideasLength = Object.entries(data).length
-        let notifications = ideas;
         return(    
         <div className="relative flex max-h-[400px] min-h-[400px] w-full max-w-[32rem] flex-col overflow-hidden rounded-lg border bg-background p-6 shadow-lg">
-        <AnimatedList>
-            {ideas}
-        </AnimatedList>
+        <p>{data}</p>
+
       </div>)
 
 
@@ -54,19 +52,24 @@ export default function LinearizeText(){
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const current = (await axios.get(process.env.NEXT_PUBLIC_API_URL + "/api/current_path")).data.json().stringify(); // Replace with your API endpoint
-            const response = (await axios.get(process.env.NEXT_PUBLIC_API_URL + "/api/current_topic"));
+            const current = (await axios.get(process.env.NEXT_PUBLIC_API_URL + "/api/current_path")).data; // Replace with your API endpoint
+            const response = (await axios.get(process.env.NEXT_PUBLIC_API_URL + "/api/current_topic")).data;
+            console.log("DATA : DATA : DATA : DATA")
             console.log(current)
             console.log(response)
+            const entries = Object.values(response)
+
             if (current === CurrentTopic){
-                const entries = Object.entries(response.data.json())
-                // if (entries.length != CurrLength){
-                //     setData([...data, ...entries])
-                // }
+                
+                if (entries.length != CurrLength){
+                    const two = [...data, ...entries]
+                    setData(response)
+                    setCurrentLength(entries.length);
+                }
             }
             else{
                 
-                setData(response.data.json());
+                setData(response);
                 setCurrentTopic(current)
             }
             
@@ -86,7 +89,7 @@ export default function LinearizeText(){
 
 
         return () => clearInterval(interval);
-      }, []);
+      }, [CurrentTopic, CurrLength]);
 
     return(<div>{createList()}</div>)
 }
