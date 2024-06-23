@@ -21,3 +21,5 @@ sqlparams==6.0.1
 urllib3==2.2.2
 Werkzeug==3.0.3
 wheel==0.43.0
+llama-index-llms-groq
+llama-index
