@@ -1,6 +1,7 @@
 from flask import Flask
 from models.assisted_merge import assistive_merge
 from models.extract_nodes import extract_entities_and_relationships
+from models.speech_to_text import extract_text_from_audio
 
 app = Flask(__name__)
 
@@ -22,3 +23,8 @@ def extract(merged_text, existing_entities=None, existing_relationships=None):
         merged_text, existing_entities, existing_relationships
     )
     return triplets
+
+
+@app.route("/api/speech_to_text", methods=["POST"])  # needs work
+def speech_to_text():
+    return extract_text_from_audio()

@@ -25,3 +25,6 @@ llama-index-llms-groq
 llama-index
 llama-index-graph-stores-nebula
 python-dotenv
+sounddevice
+pydub
+groq
