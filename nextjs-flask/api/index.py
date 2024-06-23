@@ -1,3 +1,4 @@
+import asyncio
 from flask import Flask, request, session
 from flask_cors import CORS
 from dotenv import dotenv_values
@@ -6,6 +7,10 @@ from neo4j import GraphDatabase
 from models.assisted_merge import assistive_merge
 from models.extract_nodes import extract_entities_and_relationships
 from models.speech_to_text import extract_text_from_audio
+import websockets
+import json
+import wave
+import threading
 
 config = dotenv_values(".env")
 graphdb = GraphDatabase.driver(
@@ -13,6 +18,10 @@ graphdb = GraphDatabase.driver(
 )
 app = Flask(__name__)
 CORS(app)
+
+prev_text = ""
+existing_entities = set()
+existing_relationships = []
 
 
 @app.route("/api/python")
@@ -128,3 +137,77 @@ def graph():
 @app.route("/api/speech_to_text", methods=["POST"])  # needs work
 def speech_to_text():
     return extract_text_from_audio()
+
+# async def websocket_handler(websocket, path):
+#     async for message in websocket:
+#         audio_data = message
+#         with open("received_audio.wav", "ab") as audio_file:
+#             audio_file.write(audio_data)
+        
+#         text_segment = extract_text_from_audio("received_audio.wav")
+#         if 'previous_text' in session:
+#             merged_text = assistive_merge([session['previous_text'], text_segment])
+#         else:
+#             merged_text = text_segment
+
+#         session['previous_text'] = merged_text
+
+#         triplets, existing_entities, existing_relationships = extract_entities_and_relationships(
+#             merged_text, existing_entities, existing_relationships
+#         )
+
+#         with graphdb.session() as db_session:
+#             with db_session.begin_transaction() as tx:
+#                 for entity in existing_entities:
+#                     tx.run("MERGE (:Entity {name: $name})", name=entity)
+#                 for src, rel, dest in existing_relationships:
+#                     tx.run("""
+#                     MATCH (a:Entity {name: $source})
+#                     MATCH (b:Entity {name: $dest})
+#                     MERGE (a)-[:RELATIONSHIP {type: $relationship}]->(b)
+#                     """, source=src, dest=dest, relationship=rel)
+#                 tx.commit()
+
+#         await websocket.send(json.dumps({'entities': list(existing_entities), 'relationships': existing_relationships}))
+
+@app.route("/api/record_and_build", methods=["POST"])
+def record_and_build():
+    global prev_text, existing_entities, existing_relationships
+
+    audio_file = request.files['file']
+    audio_file.save("received_audio.mp3")
+
+    text_segment = extract_text_from_audio("received_audio.mp3")
+    if prev_text:
+        merged_text = assistive_merge([prev_text, text_segment])
+    else:
+        merged_text = text_segment
+
+    prev_text = merged_text
+
+    prev_entities = existing_entities.copy()
+    prev_relationships = existing_relationships.copy()
+
+    triplets, existing_entities, existing_relationships = extract_entities_and_relationships(
+        merged_text, existing_entities, existing_relationships
+    )
+
+    remaining_entities = set(existing_entities) - set(prev_entities)
+    remaining_relationships = set(existing_relationships) - set(prev_relationships)
+
+    with graphdb.session() as db_session:
+        with db_session.begin_transaction() as tx:
+            for entity in remaining_entities:
+                tx.run("MERGE (:Entity {name: $name})", name=entity)
+            for src, rel, dest in remaining_relationships:
+                tx.run("""
+                MATCH (a:Entity {name: $source})
+                MATCH (b:Entity {name: $dest})
+                MERGE (a)-[:RELATIONSHIP {type: $relationship}]->(b)
+                """, source=src, dest=dest, relationship=rel)
+            tx.commit()
+
+    return "DONE"
+
+if __name__ == "__main__":
+    app.run(host='0.0.0.0', port=5328)
