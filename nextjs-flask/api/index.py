@@ -221,8 +221,10 @@ def record_and_build():
 
     with graphdb.session() as db_session:
         with db_session.begin_transaction() as tx:
+            tx.run("MATCH (n:Entity {current: TRUE}) SET n.current = FALSE")
             for entity in remaining_entities:
                 tx.run("MERGE (:Entity {name: $name})", name=entity)
+            tx.run("MATCH(n:Entity {name: $name}) SET n.current = TRUE", name=remaining_entities[-1])
             for src, rel, dest in remaining_relationships:
                 tx.run(
                     """
