@@ -1,38 +1,38 @@
-2024-06-23 07:48:33,164 INFO: Previous relationships: [('undefined error message', 'is caused by', 'incorrect code'), ('incorrect code', 'causes', 'undefined error message'), ('undefined error message', 'is a problem of', 'phone functionality'), ('phone functionality', 'has issue', 'incorrect code'), ('api slash current path', 'is a solution to', 'incorrect code'), ('incorrect code', 'is the cause of', 'phone functionality calling 3000'), ('incorrect code', 'causes', 'phone functionality calling 3000'), ('linearized text', 'is related to', 'api slash current path'), ('environment variable', 'solves', 'incorrect code'), ('api slash current path', 'solves', 'incorrect code'), ('incorrect code', 'is related to', 'api slash current path')]
-2024-06-23 07:48:34,406 INFO: Entities and relationships created in database
-2024-06-23 07:48:37,038 INFO: Audio file saved
-2024-06-23 07:48:37,419 INFO: Extracted text:  or not or at the moment or like derek has completed his part and then
-2024-06-23 07:48:38,130 INFO: Merged text: Here is the merged text:
+2024-06-23 07:59:23,625 INFO: Merged text: Here is the merged text:
 
-It isn't correct. It keeps saying undefined and then for on the phone. And this is, it's really trying to go too undefined. What is it's supposed to be doing. I think this is mine. This is, I mean, this is how mine is looking. I'm sorry. Oh, are you calling 3000? Is that why? No, this is doing API slash current path. Yeah, this one's calling... 3000 why is it doing that linearized text Where is it? Oh! Yeah, is it just my environment variable? Is all I have to say? what the frick why did this not get in I hate not speaking Gizmo it's I'm going to brush my teeth so It's gonna be a long day Okay. yes to like, this is the thing that like, it works now. Like the whole recording. pipeline or are we visualizing the graph or not or at the moment or like derek has completed his part and then
-2024-06-23 07:48:38,131 INFO: Previous entities: {'phone functionality calling 3000', 'undefined error message', 'incorrect code', 'phone functionality', 'api slash current path', 'environment variable', 'linearized text'}
-2024-06-23 07:48:38,131 INFO: Previous relationships: [('undefined error message', 'is caused by', 'incorrect code'), ('incorrect code', 'causes', 'undefined error message'), ('undefined error message', 'is a problem of', 'phone functionality'), ('phone functionality', 'has issue', 'incorrect code'), ('api slash current path', 'is a solution to', 'incorrect code'), ('incorrect code', 'is the cause of', 'phone functionality calling 3000'), ('incorrect code', 'causes', 'phone functionality calling 3000'), ('linearized text', 'is related to', 'api slash current path'), ('environment variable', 'solves', 'incorrect code'), ('api slash current path', 'solves', 'incorrect code'), ('incorrect code', 'is related to', 'api slash current path')]
-2024-06-23 07:48:39,106 INFO: Entities and relationships created in database
-2024-06-23 07:49:38,415 INFO: Audio file saved
-2024-06-23 07:49:38,415 INFO: Audio file saved
-2024-06-23 07:49:38,827 INFO: Extracted text:  uh
-2024-06-23 07:49:38,827 INFO: Extracted text:  uh
-2024-06-23 07:49:38,827 INFO: Merged text:  uh
-2024-06-23 07:49:38,827 INFO: Merged text:  uh
-2024-06-23 07:49:38,827 INFO: Previous entities: set()
-2024-06-23 07:49:38,827 INFO: Previous entities: set()
-2024-06-23 07:49:38,827 INFO: Previous relationships: []
-2024-06-23 07:49:38,827 INFO: Previous relationships: []
-2024-06-23 07:49:41,428 INFO: Audio file saved
-2024-06-23 07:49:41,428 INFO: Audio file saved
-2024-06-23 07:49:41,816 INFO: Extracted text:  so
-2024-06-23 07:49:41,816 INFO: Extracted text:  so
-2024-06-23 07:49:41,994 INFO: Merged text: Here is the merged text:
+Hello, hello, welcome to our recording. Oh! Your thing is working, Derek! entities are building up as we are seeing this transpire to we can see that the Derek Solar and Jasper team are on the come up as they're about to sell their billion dollar valuation startup.
+2024-06-23 07:59:23,626 INFO: Previous entities: {'checking the recording device', 'audio recording issues'}
+2024-06-23 07:59:23,626 INFO: Previous relationships: [('audio recording issues', 'solved by', 'checking the recording device')]
+2024-06-23 07:59:24,845 INFO: Entities and relationships created in database
+2024-06-23 07:59:27,512 INFO: Audio file saved
+2024-06-23 07:59:27,956 INFO: Extracted text:  What does it look like?
+2024-06-23 07:59:28,252 INFO: Merged text: Here is the merged text:
 
-uh so
-2024-06-23 07:49:41,994 INFO: Merged text: Here is the merged text:
+Hello, hello, welcome to our recording. Oh! Your thing is working, Derek! Entities are building up as we are seeing this transpire to we can see that the Derek Solar and Jasper team are on the come up as they're about to sell their billion dollar valuation startup. What does it look like?
+2024-06-23 07:59:28,252 INFO: Previous entities: {'billion dollar valuation startup', 'checking the recording device', 'derek solar and jasper team', 'audio recording issues'}
+2024-06-23 07:59:28,252 INFO: Previous relationships: [('audio recording issues', 'solved by', 'checking the recording device'), ('billion dollar valuation startup', 'depends on', 'derek solar and jasper team')]
+2024-06-23 07:59:29,028 INFO: Entities and relationships created in database
+2024-06-23 07:59:33,069 INFO: Audio file saved
+2024-06-23 07:59:33,538 INFO: Extracted text:  It only has one note. I don't know where the rest of the notes are. Wait.
+2024-06-23 07:59:34,219 INFO: Merged text: Here is the merged text:
 
-uh so
-2024-06-23 07:49:41,995 INFO: Previous entities: {'outdated software', 'system crashes', 'data inconsistency', 'inefficient code', 'high latency', 'enhance security', 'debug', 'large dataset', 'data validation', 'user complaints', 'network issues', 'software bugs', 'security breach', 'upgrade server', 'slow response time', 'insufficient data', 'user training', 'low accuracy', 'check connection', 'poor performance'}
-2024-06-23 07:49:41,995 INFO: Previous entities: {'outdated software', 'system crashes', 'data inconsistency', 'inefficient code', 'high latency', 'enhance security', 'debug', 'large dataset', 'data validation', 'user complaints', 'network issues', 'software bugs', 'security breach', 'upgrade server', 'slow response time', 'insufficient data', 'user training', 'low accuracy', 'check connection', 'poor performance'}
-2024-06-23 07:49:41,995 INFO: Previous relationships: [('high latency', 'depends on', 'large dataset'), ('slow response time', 'solved by', 'upgrade server'), ('low accuracy', 'depends on', 'insufficient data'), ('network issues', 'solved by', 'check connection'), ('data inconsistency', 'solved by', 'data validation'), ('security breach', 'solved by', 'enhance security'), ('poor performance', 'depends on', 'inefficient code'), ('software bugs', 'solved by', 'debug'), ('system crashes', 'depends on', 'outdated software'), ('user complaints', 'solved by', 'user training')]
-2024-06-23 07:49:41,995 INFO: Previous relationships: [('high latency', 'depends on', 'large dataset'), ('slow response time', 'solved by', 'upgrade server'), ('low accuracy', 'depends on', 'insufficient data'), ('network issues', 'solved by', 'check connection'), ('data inconsistency', 'solved by', 'data validation'), ('security breach', 'solved by', 'enhance security'), ('poor performance', 'depends on', 'inefficient code'), ('software bugs', 'solved by', 'debug'), ('system crashes', 'depends on', 'outdated software'), ('user complaints', 'solved by', 'user training')]
-2024-06-23 07:49:43,514 INFO: Entities and relationships created in database
-2024-06-23 07:49:43,514 INFO: Entities and relationships created in database
-2024-06-23 07:49:44,156 INFO: Entities and relationships created in database
-2024-06-23 07:49:44,156 INFO: Entities and relationships created in database
+Hello, hello, welcome to our recording. Oh! Your thing is working, Derek! Entities are building up as we are seeing this transpire to we can see that the Derek Solar and Jasper team are on the come up as they're about to sell their billion dollar valuation startup. What does it look like? It only has one note. I don't know where the rest of the notes are. Wait.
+2024-06-23 07:59:34,219 INFO: Previous entities: {'billion dollar valuation startup', 'checking the recording device', 'derek solar and jasper team', 'audio recording issues'}
+2024-06-23 07:59:34,219 INFO: Previous relationships: [('audio recording issues', 'solved by', 'checking the recording device'), ('billion dollar valuation startup', 'depends on', 'derek solar and jasper team')]
+2024-06-23 07:59:35,449 INFO: Entities and relationships created in database
+2024-06-23 07:59:37,519 INFO: Audio file saved
+2024-06-23 07:59:37,890 INFO: Extracted text:  oh wait uh let me push
+2024-06-23 07:59:38,315 INFO: Merged text: Here is the merged text:
+
+Hello, hello, welcome to our recording. Oh! Your thing is working, Derek! Entities are building up as we are seeing this transpire to we can see that the Derek Solar and Jasper team are on the come up as they're about to sell their billion dollar valuation startup. What does it look like? It only has one note. I don't know where the rest of the notes are. Wait. Oh wait uh let me push
+2024-06-23 07:59:38,316 INFO: Previous entities: {'billion dollar valuation startup', 'checking the recording device', 'derek solar and jasper team', 'audio recording issues'}
+2024-06-23 07:59:38,316 INFO: Previous relationships: [('audio recording issues', 'solved by', 'checking the recording device'), ('billion dollar valuation startup', 'depends on', 'derek solar and jasper team')]
+2024-06-23 07:59:39,057 INFO: Entities and relationships created in database
+2024-06-23 07:59:39,302 INFO: Audio file saved
+2024-06-23 07:59:39,812 INFO: Extracted text:  I just made a couple of
+2024-06-23 07:59:40,629 INFO: Merged text: Here is the merged text:
+
+Hello, hello, welcome to our recording. Oh! Your thing is working, Derek! Entities are building up as we are seeing this transpire to we can see that the Derek Solar and Jasper team are on the come up as they're about to sell their billion dollar valuation startup. What does it look like? It only has one note. I don't know where the rest of the notes are. Wait. Oh wait uh let me push I just made a couple of
+2024-06-23 07:59:40,630 INFO: Previous entities: {'billion dollar valuation startup', 'checking the recording device', 'derek solar and jasper team', 'audio recording issues'}
+2024-06-23 07:59:40,630 INFO: Previous relationships: [('audio recording issues', 'solved by', 'checking the recording device'), ('billion dollar valuation startup', 'depends on', 'derek solar and jasper team')]
+2024-06-23 07:59:41,316 INFO: Entities and relationships created in database

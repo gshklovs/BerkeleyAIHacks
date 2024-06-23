@@ -7,7 +7,9 @@ export default function Home() {
     <div className="flex justify-center items-center h-screen bg-[#d1cab7] text-[##221128]">
       <Image src="/logo.jpg" width={100} height={100} alt="logo" />
       <div className="w-[100%] border">
-        <div className="text-5xl text-center  mb-2">YapTrack</div>
+        <div className="text-5xl text-center text-green-500  mb-2">
+          YapTrack
+        </div>
         <div className="text-2xl text-center font-light">
           The meeting guide that keeps you on track
         </div>
