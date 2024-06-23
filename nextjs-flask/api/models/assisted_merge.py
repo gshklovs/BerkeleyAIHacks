@@ -5,10 +5,11 @@ from llama_index.graph_stores.nebula import NebulaGraphStore
 from llama_index.core import StorageContext
 from llama_index.core.query_engine import RetrieverQueryEngine
 from llama_index.core.retrievers import KnowledgeGraphRAGRetriever
+from dotenv import dotenv_values
 
-os.environ["GROQ_API_KEY"] = "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"
+config = dotenv_values(".env")
 
-llm = Groq(model="llama3-70b-8192", api_key=os.environ["GROQ_API_KEY"])
+llm = Groq(model="llama3-70b-8192", api_key=config["GROQ_API_KEY"])
 
 def assistive_merge(paragraphs):
     merge_prompt = "\n%%%\n".join(paragraphs)
