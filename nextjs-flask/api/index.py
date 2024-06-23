@@ -41,12 +41,12 @@ def extract():
     return triplets
 
 def create_node(entity):
-    graphdb.execute_query("CREATE (:Entity {name: $name})", name=entity)
+    graphdb.execute_query("MERGE (:Entity {name: $name})", name=entity)
 
 @app.route("/api/create_node", methods=("POST",))
 def create_node_req():
     data = request.get_json()
-    graphdb.execute_query("CREATE (:Entity {name: $name})", name=data["entity"])
+    graphdb.execute_query("MERGE (:Entity {name: $name})", name=data["entity"])
     return "DONE"
 
 @app.route("/api/create_relationship", methods=("POST",))
@@ -65,7 +65,7 @@ def create_relationships():
     with graphdb.session() as session:
         with session.begin_transaction() as tx:
             for entity in data["entities"]:
-                tx.run("CREATE (:Entity {name: $name})", name=entity)
+                tx.run("MERGE (:Entity {name: $name})", name=entity)
             for rel in data["relationships"]:
                 tx.run("""
                 MATCH (a:Entity {name: $source})
