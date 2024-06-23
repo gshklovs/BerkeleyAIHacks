@@ -113,4 +113,4 @@ def graph():
 
 @app.route("/api/speech_to_text", methods=["POST"])  # needs work
 def speech_to_text():
-    extract_text_from_audio()
+    return extract_text_from_audio()
