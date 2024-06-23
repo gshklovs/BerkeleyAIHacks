@@ -128,3 +128,13 @@ def graph():
 @app.route("/api/speech_to_text", methods=["POST"])  # needs work
 def speech_to_text():
     return extract_text_from_audio()
+
+@app.route("/api/current_path")
+def current_path():
+    result = graphdb.execute_query("MATCH p=(k)-[:RELATIONSHIP*1..]->(n:Entity {current: TRUE})-[:RELATIONSHIP*1..]->(m) return p order by length(p) DESC LIMIT 1")
+    return [x["name"] for x in result[0][0]["p"].nodes]
+
+@app.route("/api/current_topic")
+def current_topic():
+    result = graphdb.execute_query("MATCH (n :Entity {current: TRUE}) RETURN n")
+    return result[0][0]["n"]["name"]

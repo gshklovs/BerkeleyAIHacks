@@ -33,6 +33,8 @@ function Notification(something : string) {
 
 export default function LinearizeText(){
     const [data, setData] = useState([])
+    const [CurrentTopic, setCurrentTopic] = useState("")
+    const [CurrLength, setCurrentLength] = useState(0);
     
 
     function createList(){
@@ -52,8 +54,22 @@ export default function LinearizeText(){
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const response = await axios.get(process.env.NEXT_PUBLIC_API_URL + ""); // Replace with your API endpoint
-            setData(response.data.json());
+            const current = (await axios.get(process.env.NEXT_PUBLIC_API_URL + "/api/current_path")).data.json().stringify(); // Replace with your API endpoint
+            const response = (await axios.get(process.env.NEXT_PUBLIC_API_URL + "/api/current_topic"));
+            console.log(current)
+            console.log(response)
+            if (current === CurrentTopic){
+                const entries = Object.entries(response.data.json())
+                // if (entries.length != CurrLength){
+                //     setData([...data, ...entries])
+                // }
+            }
+            else{
+                
+                setData(response.data.json());
+                setCurrentTopic(current)
+            }
+            
           } catch (error) {
             console.error('Error fetching data:', error);
           }
@@ -64,6 +80,8 @@ export default function LinearizeText(){
         const interval = setInterval(() => {
           fetchData();
         }, 3000); 
+
+        
 
 
 
