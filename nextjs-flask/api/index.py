@@ -7,6 +7,7 @@ from neo4j import GraphDatabase
 from models.assisted_merge import assistive_merge
 from models.extract_nodes import extract_entities_and_relationships
 from models.speech_to_text import extract_text_from_audio
+from models.similarities import compute_similarities
 import json
 import logging
 from logging.handlers import RotatingFileHandler
@@ -238,6 +239,37 @@ def record_and_build():
             tx.commit()
     app.logger.info("Entities and relationships created in database")
     return "DONE"
+
+
+@app.route("/api/create_correlation_edges", methods=["POST"])
+def create_correlation_edges():
+    global global_entities
+    
+    # Compute similarities
+    similarities = compute_similarities(global_entities)
+    threshold = 0.7  # You can adjust this threshold as needed
+    
+    correlation_edges = [
+        (entity1, entity2) for (entity1, entity2), sim in similarities.items() if sim > threshold
+    ]
+    
+    with graphdb.session() as db_session:
+        with db_session.begin_transaction() as tx:
+            for src, dest in correlation_edges:
+                tx.run(
+                    """
+                    MATCH (a:Entity {name: $source})
+                    MATCH (b:Entity {name: $dest})
+                    MERGE (a)-[:CORRELATED {similarity: $similarity}]->(b)
+                    """,
+                    source=src,
+                    dest=dest,
+                    similarity=similarities[(src, dest)],
+                )
+            tx.commit()
+    app.logger.info("Correlation edges created in database")
+    return "DONE"
+
 
 
 if __name__ == "__main__":
