@@ -1,4 +1,5 @@
 import asyncio
+import asyncio
 from flask import Flask, request, session
 from flask_cors import CORS
 from dotenv import dotenv_values
@@ -7,6 +8,9 @@ from neo4j import GraphDatabase
 from models.assisted_merge import assistive_merge
 from models.extract_nodes import extract_entities_and_relationships
 from models.speech_to_text import extract_text_from_audio
+import json
+import logging
+from logging.handlers import RotatingFileHandler
 import json
 import logging
 from logging.handlers import RotatingFileHandler
@@ -37,11 +41,32 @@ prev_text = ""
 global_entities = set()
 global_relationships = []
 
+# Set the log level and format
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s: %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+
+# Optionally, configure a rotating file handler
+handler = RotatingFileHandler("app.log", maxBytes=10000, backupCount=1)
+handler.setLevel(logging.INFO)
+formatter = logging.Formatter("%(asctime)s %(levelname)s: %(message)s")
+handler.setFormatter(formatter)
+app.logger.addHandler(handler)
+
+# define globals
+prev_text = ""
+global_entities = set()
+global_relationships = []
+
 
 @app.route("/api/python")
 def hello_world():
     return "<p>Hello, World!</p>"
 
+
+@app.route("/api/upload_audio", methods=["POST"])
 
 @app.route("/api/upload_audio", methods=["POST"])
 def upload_audio():
@@ -50,7 +75,10 @@ def upload_audio():
         audio_file.write(audio_data)
     return "Audio received", 200
 
+    return "Audio received", 200
 
+
+if __name__ == "__main__":
 if __name__ == "__main__":
     # app.run(host='0.0.0.0', port=5328)
     pass
@@ -208,10 +236,10 @@ def record_and_build():
     app.logger.info(f"Previous entities: {prev_entities}")
     prev_relationships = global_relationships.copy()
     app.logger.info(f"Previous relationships: {prev_relationships}")
-
+    mode = "Build"
     triplets, global_entities, global_relationships = (
         extract_entities_and_relationships(
-            merged_text, global_entities, global_relationships
+            merged_text, mode, global_entities, global_relationships
         )
     )
 
