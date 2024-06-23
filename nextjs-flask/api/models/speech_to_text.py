@@ -42,7 +42,7 @@ def save_to_m4a(audio_data, sample_rate, filename):
 
 
 def perform_transcription(filename):
-    client = Groq(api_key="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")
+    client = Groq()
     with open(filename, "rb") as file:
         transcription = client.audio.transcriptions.create(
             file=(filename, file.read()),
@@ -67,13 +67,15 @@ def make_sample():
     return filename
 
 
-def main():
+def extract_text_from_audio():
+    print("Extracting text from audio...")
     filename = make_sample()
     # Perform transcription using Groq API
     transcription_text = perform_transcription(filename)
     print("Transcription Result:")
     print(transcription_text)
+    return transcription_text
 
 
 if __name__ == "__main__":
-    main()
+    extract_text_from_audio()
