@@ -21,4 +21,5 @@ def extract(merged_text, existing_entities=None, existing_relationships=None):
     triplets = extract_entities_and_relationships(
         merged_text, existing_entities, existing_relationships
     )
+    #triplets is returned as triplets, existing_entities, existing_relationships
     return triplets
