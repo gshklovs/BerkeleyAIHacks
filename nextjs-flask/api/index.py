@@ -1,38 +1,52 @@
 from flask import Flask, request, session
 from dotenv import dotenv_values
 import random
-import singlestoredb as s2
-import atexit
-app = Flask(__name__)
+from neo4j import GraphDatabase
 
 config = dotenv_values(".env")
-conn = s2.connect(
-    host=config["SINGLESTORE_HOST"],
-    port=config["SINGLESTORE_PORT"],
-    user=config["SINGLESTORE_USER"],
-    password=config["SINGLESTORE_PASSWD"],
-    database=config["SINGLESTORE_DB"],
-    connect_timeout=5)
+graphdb = GraphDatabase.driver(config["NEO4J_URI"], auth=(config["NEO4J_USER"], config["NEO4J_PASS"]))
+app = Flask(__name__)
 
-def close_connections():
-    conn.close()
 
-atexit.register(close_connections)
 
 @app.route("/api/python")
 def hello_world():
     return f"<p>Asdf</p>"
 
-@app.route("/api/add_relationships", methods=("POST",))
-def add_relationships():
-    if not conn.is_connected():
-        return "Not connected to database", 500
-    if request.method == "POST":
-        data = request.get_json()
-        cursor = conn.cursor()
-        cursor.execute(f"INSERT INTO {config['SINGLESTORE_DB']} VALUES ({data['srcEntity']}, {data['relationship']}, {data['destEntity']}, {session['session_id']});")
-        return "DONE"
-    return "Need a POST request to add data", 405
+def create_node(entity):
+    graphdb.execute_query("CREATE (:Entity {name: $name})", name=entity)
+
+@app.route("/api/create_node", methods=("POST",))
+def create_node_req():
+    data = request.get_json()
+    graphdb.execute_query("CREATE (:Entity {name: $name})", name=data["entity"])
+    return "DONE"
+
+@app.route("/api/create_relationship", methods=("POST",))
+def create_relationship():
+    data = request.get_json()
+    graphdb.execute_query("""
+    MATCH (a:Entity {name: $source})
+    MATCH (b:Entity {name: $dest})
+    MERGE (a)-[:RELATIONSHIP {type: $relationship}]->(b)
+    """, source=data["source"], dest=data["dest"], relationship=data["relationship"])
+    return "DONE"
+
+@app.route("/api/create_relationships", methods=("POST",))
+def create_relationships():
+    data = request.get_json()
+    with graphdb.session() as session:
+        with session.begin_transaction() as tx:
+            for entity in data["entities"]:
+                tx.run("CREATE (:Entity {name: $name})", name=entity)
+            for rel in data["relationships"]:
+                tx.run("""
+                MATCH (a:Entity {name: $source})
+                MATCH (b:Entity {name: $dest})
+                MERGE (a)-[:RELATIONSHIP {type: $relationship}]->(b)
+                """, source=rel["source"], dest=rel["dest"], relationship=rel["relationship"])
+            tx.commit()
+    return "DONE"
 
 @app.route("/api/new_meeting")
 def new_meeting():
@@ -47,5 +61,3 @@ def graph():
     cursor.execute(f"SELECT * FROM {config['SINGLESTORE_DB']} WHERE sessionId={session['session_id']}")
     return cursor.fetchall()
 
-@app.route("/api/existing_entities")
-def 
