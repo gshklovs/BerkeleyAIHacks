@@ -1,3 +1,4 @@
+import asyncio
 from flask import Flask, request, session
 from flask_cors import CORS
 from dotenv import dotenv_values
@@ -6,6 +7,9 @@ from neo4j import GraphDatabase
 from models.assisted_merge import assistive_merge
 from models.extract_nodes import extract_entities_and_relationships
 from models.speech_to_text import extract_text_from_audio
+import json
+import logging
+from logging.handlers import RotatingFileHandler
 
 config = dotenv_values(".env")
 graphdb = GraphDatabase.driver(
@@ -14,22 +18,42 @@ graphdb = GraphDatabase.driver(
 app = Flask(__name__)
 CORS(app)
 
+# Set the log level and format
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s %(levelname)s: %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+
+# Optionally, configure a rotating file handler
+handler = RotatingFileHandler("app.log", maxBytes=10000, backupCount=1)
+handler.setLevel(logging.INFO)
+formatter = logging.Formatter("%(asctime)s %(levelname)s: %(message)s")
+handler.setFormatter(formatter)
+app.logger.addHandler(handler)
+
+# define globals
+prev_text = ""
+global_entities = set()
+global_relationships = []
+
 
 @app.route("/api/python")
 def hello_world():
     return "<p>Hello, World!</p>"
 
-@app.route('/api/upload_audio', methods=['POST'])
+
+@app.route("/api/upload_audio", methods=["POST"])
 def upload_audio():
     audio_data = request.data
     with open("received_audio.wav", "ab") as audio_file:
         audio_file.write(audio_data)
-    return 'Audio received', 200
+    return "Audio received", 200
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     # app.run(host='0.0.0.0', port=5328)
     pass
-
 
 
 @app.route("/api/merge", methods=["POST"])  # needs work
@@ -58,13 +82,13 @@ def extract():
     # triplets is returned as triplets, existing_entities, existing_relationships
     return triplets
 
-
-def create_node(entity):
-    graphdb.execute_query("MERGE (:Entity {name: $name})", name=entity)
-
+@app.route("/api/current_path")
+def current_path():
+    result = graphdb.execute_query("MATCH p=(k)-[:RELATIONSHIP*1..]->(n:Entity {current: TRUE})-[:RELATIONSHIP*1..]->(m) return p order by length(p) DESC LIMIT 1")
+    return [x["name"] for x in result[0][0]["p"].nodes]
 
 @app.route("/api/create_node", methods=("POST",))
-def create_node_req():
+def create_node():
     data = request.get_json()
     graphdb.execute_query("MERGE (:Entity {name: $name})", name=data["entity"])
     return "DONE"
@@ -106,6 +130,8 @@ def create_relationships():
                 )
             tx.commit()
     return "DONE"
+
+
 
 
 @app.route("/api/new_meeting")

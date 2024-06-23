@@ -1,45 +1,68 @@
-'use client'
+"use client";
 
-import { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
+import { useEffect, useRef, useState } from "react";
+import axios from "axios";
 
-
-export default function AudioRecorder(){
-  const [recording, setRecording] = useState(false);
-  const mediaRecorderRef = useRef(null);
-  const audioChunksRef = useRef([]);
+export default function AudioRecorder() {
+  const [recording, setRecording] = useState<boolean>(false);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
+  const audioChunksRef = useRef<Blob[]>([]);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const startRecording = async () => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    mediaRecorderRef.current = new MediaRecorder(stream);
-    mediaRecorderRef.current.ondataavailable = (event) => {
-      audioChunksRef.current.push(event.data);
-      sendAudioData(event.data);
+
+    const startNewRecording = () => {
+      if (mediaRecorderRef.current) {
+        mediaRecorderRef.current.stop();
+      }
+      mediaRecorderRef.current = new MediaRecorder(stream);
+
+      // Reset the chunks array to start a fresh recording
+      audioChunksRef.current = [];
+
+      mediaRecorderRef.current.ondataavailable = (event: BlobEvent) => {
+        audioChunksRef.current.push(event.data);
+        sendAudioData(event.data);
+      };
+
+      mediaRecorderRef.current.start(); // Start recording immediately
+      console.log("Recording started at:", new Date().toLocaleTimeString());
     };
 
-    mediaRecorderRef.current.start(5000); // Collect audio data every 100 milliseconds
+    startNewRecording();
+    intervalRef.current = setInterval(startNewRecording, 5000); // Start new recording every 30 seconds
+
     setRecording(true);
   };
 
   const stopRecording = () => {
-    mediaRecorderRef.current.stop();
+    if (mediaRecorderRef.current) {
+      mediaRecorderRef.current.stop();
+    }
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
     setRecording(false);
   };
 
-  const sendAudioData = async (audioChunk) => {
+  const sendAudioData = async (audioChunk: Blob) => {
     try {
       const formData = new FormData();
-      formData.append('audio', audioChunk, 'audio.wav');
+      formData.append("file", audioChunk, "audio.wav");
 
-      const response = await axios.post('http://localhost:5328/api/upload_audio', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      console.log(response)
-
+      const response = await axios.post(
+        "http://localhost:5328/api/record_and_build",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log(response.data);
     } catch (error) {
-      console.error('Error sending audio data:', error);
+      console.error("Error sending audio data:", error);
     }
   };
 
@@ -47,8 +70,8 @@ export default function AudioRecorder(){
     <div>
       <h1>Audio Recorder</h1>
       <button onClick={recording ? stopRecording : startRecording}>
-        {recording ? 'Stop Recording' : 'Start Recording'}
+        {recording ? "Stop Recording" : "Start Recording"}
       </button>
     </div>
   );
-};
+}

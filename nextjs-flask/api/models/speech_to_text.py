@@ -55,23 +55,23 @@ def perform_transcription(filename):
     return transcription.text
 
 
-def make_sample():
-    # Record audio for 10 seconds
-    audio_data, sample_rate = record_audio(10)
-    # Append 20 seconds of silence to the recorded audio
-    audio_data = append_silence(audio_data, 20, sample_rate)
-    # Save the recorded audio to an M4A file
-    filename = "./sample.m4a"
-    save_to_m4a(audio_data, sample_rate, filename)
-    print(f"Sample audio saved to {filename}")
-    return filename
+# def make_sample():
+#     # Record audio for 10 seconds
+#     audio_data, sample_rate = record_audio(10)
+#     # Append 20 seconds of silence to the recorded audio
+#     audio_data = append_silence(audio_data, 20, sample_rate)
+#     # Save the recorded audio to an M4A file
+#     filename = "./sample.m4a"
+#     save_to_m4a(audio_data, sample_rate, filename)
+#     print(f"Sample audio saved to {filename}")
+#     return filename
 
 
-def extract_text_from_audio():
+def extract_text_from_audio(audio_file):
     print("Extracting text from audio...")
-    filename = make_sample()
+    # filename = make_sample()
     # Perform transcription using Groq API
-    transcription_text = perform_transcription(filename)
+    transcription_text = perform_transcription(audio_file)
     print("Transcription Result:")
     print(transcription_text)
     return transcription_text

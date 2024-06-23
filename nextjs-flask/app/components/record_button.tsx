@@ -80,13 +80,16 @@ const RecordButton = () => {
 
   return (
     <div>
-      <div>
-        <h1>Audio Streaming</h1>
-        <button onClick={isRecording ? stopRecording : startRecording}>
+      <div className="bg-gray-700 bg-opacity-50 p-2 rounded-sm">
+        <h1 className="p-4 m-1">Audio Streaming</h1>
+        <button
+          className="bg-blue-500 m-1 p-4 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={isRecording ? stopRecording : startRecording}
+        >
           {isRecording ? "Stop Recording" : "Start Recording"}
         </button>
         <div
-          className="h-4 bg-green-500"
+          className="h-4 p-4 m-1 rounded-sm bg-green-500"
           style={{ width: `${amplitude * 100}px` }}
         ></div>
       </div>
