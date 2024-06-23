@@ -1,9 +1,73 @@
-2024-06-23 02:37:15,345 INFO: Previous relationships: [('unknown speaker', 'will meet', 'you'), ('you', 'will be seen by', 'unknown speaker'), ('saturday', 'is the meeting date for', 'unknown speaker and you'), ('unknown speaker and you', 'has meeting date', 'saturday'), ('unknown speaker', 'will create', 'objective'), ('unknown speaker', 'has', 'previous relationships'), ('unknown speaker', 'has', 'previous entries'), ('unknown speaker', 'will send', 'new audio file'), ('unknown speaker', 'has', 'objective'), ('you', 'will transcribe', 'sound effects'), ('sound effects', 'are made by', 'unknown speaker'), ('unknown speaker', 'will make', 'sound effects'), ('unknown speaker', 'created', 'objective')]
-2024-06-23 02:37:16,773 INFO: Entities and relationships created in database
-2024-06-23 02:37:19,501 INFO: Audio file saved
-2024-06-23 02:37:20,056 INFO: Extracted text:  It actually works. And there's merging.
-2024-06-23 02:37:20,563 INFO: Merged text: Here is the merged text:
+2024-06-23 10:29:57,659 INFO: Previous relationships: [('lack of ai functionality', 'solved by', 'creating a new ai'), ('limited ai capabilities', 'solved by', 'developing ai that does a lot of stuff for users'), ('limited ai capabilities', 'depends on', 'lack of internet access'), ('lack of ai functionality', 'depends on', 'limited ai capabilities'), ('creating a new ai', 'solved by', 'developing ai that does a lot of stuff for users'), ('developing ai that does a lot of stuff for users', 'depends on', 'utilizing internet resources'), ('creating a new ai', 'depends on', 'developing ai that does a lot of stuff for users'), ('lack of internet access', 'solved by', 'utilizing internet resources'), ('need for homework help', 'solved by', 'creating a new ai that helps people do homework'), ('creating a new ai that helps people do homework', 'depends on', 'creating a new ai'), ('creating a new ai that helps people do homework', 'depends on', 'developing ai that does a lot of stuff for users'), ('pet training', 'solved by', 'creating a new ai project with pet training'), ('lack of smart ai', 'solved by', 'developing ai that does a lot of stuff for users'), ('need for a new project', 'solved by', 'creating a new ai project with pet training'), ('need for a new project', 'solved by', 'creating a new ai that helps people do homework')]
+2024-06-23 10:29:59,740 INFO: Entities and relationships created in database
+2024-06-23 10:31:52,229 INFO: Audio file saved
+2024-06-23 10:31:52,802 INFO: Extracted text:  Let's make a new project. The project is going to be very good.
+2024-06-23 10:31:52,802 INFO: Merged text:  Let's make a new project. The project is going to be very good.
+2024-06-23 10:31:52,802 INFO: Previous entities: set()
+2024-06-23 10:31:52,802 INFO: Previous relationships: []
+2024-06-23 10:31:54,354 INFO: Entities and relationships created in database
+2024-06-23 10:31:56,664 INFO: Audio file saved
+2024-06-23 10:31:57,500 INFO: Extracted text:  at training pets. It will be using AI.
+2024-06-23 10:31:57,747 INFO: Merged text: Here is the merged text:
 
-Here is the merged text: uh and then we'll see you Saturday. and we have created our objective or something like that. Very exciting! You can see all of our previous relationships and their previous entries. and every time that we send a new audio file Clap, clap, clap. Okay, now I want you to describe... transcribe i want you to transcribe the sound effects that i will be making Hello, I'm you I'm sorry. Oh, he said clap clap. I'll cut that. I said hello, I'm here and I'm sorry. Dude, it works. It actually works. And there's merging.
-2024-06-23 02:37:20,563 INFO: Previous entities: {'unknown speaker and you', 'sound effects', 'you', 'previous entries', 'saturday', 'unknown speaker', 'previous relationships', 'new audio file', 'objective'}
-2024-06-23 02:37:20,563 INFO: Previous relationships: [('unknown speaker', 'will meet', 'you'), ('you', 'will be seen by', 'unknown speaker'), ('saturday', 'is the meeting date for', 'unknown speaker and you'), ('unknown speaker and you', 'has meeting date', 'saturday'), ('unknown speaker', 'will create', 'objective'), ('unknown speaker', 'has', 'previous relationships'), ('unknown speaker', 'has', 'previous entries'), ('unknown speaker', 'will send', 'new audio file'), ('unknown speaker', 'has', 'objective'), ('you', 'will transcribe', 'sound effects'), ('sound effects', 'are made by', 'unknown speaker'), ('unknown speaker', 'will make', 'sound effects'), ('unknown speaker', 'created', 'objective')]
+Let's make a new project. The project is going to be very good at training pets. It will be using AI.
+2024-06-23 10:31:57,747 INFO: Previous entities: {'new project', 'being very good'}
+2024-06-23 10:31:57,747 INFO: Previous relationships: [('new project', 'has goal', 'being very good')]
+2024-06-23 10:31:59,656 INFO: Entities and relationships created in database
+2024-06-23 10:35:33,479 INFO: Audio file saved
+2024-06-23 10:35:33,948 INFO: Extracted text:  okay the kind of ai we want to use for this project will might be a transformer model
+2024-06-23 10:35:34,352 INFO: Merged text: Here is the merged text:
+
+Let's make a new project. The project is going to be very good at training pets. It will be using AI. Okay, the kind of AI we want to use for this project might be a transformer model.
+2024-06-23 10:35:34,352 INFO: Previous entities: {'new project', 'being very good', 'ai', 'training pets'}
+2024-06-23 10:35:34,353 INFO: Previous relationships: [('new project', 'has goal', 'being very good'), ('training pets', 'depends on', 'ai'), ('new project', 'has goal', 'training pets')]
+2024-06-23 10:35:36,174 INFO: Entities and relationships created in database
+2024-06-23 10:35:38,475 INFO: Audio file saved
+2024-06-23 10:35:39,018 INFO: Extracted text:  Very big transformer model with so many billions of parameters
+2024-06-23 10:35:39,337 INFO: Merged text: Here is the merged text:
+
+Let's make a new project. The project is going to be very good at training pets. It will be using AI. Okay, the kind of AI we want to use for this project might be a transformer model. Very big transformer model with so many billions of parameters.
+2024-06-23 10:35:39,337 INFO: Previous entities: {'being very good', 'new project', 'transformer model', 'ai', 'training pets'}
+2024-06-23 10:35:39,337 INFO: Previous relationships: [('new project', 'has goal', 'being very good'), ('training pets', 'depends on', 'ai'), ('new project', 'has goal', 'training pets'), ('being very good', 'depends on', 'ai'), ('being very good', 'solved by', 'transformer model')]
+2024-06-23 10:35:40,239 INFO: Entities and relationships created in database
+2024-06-23 10:35:43,479 INFO: Audio file saved
+2024-06-23 10:35:43,976 INFO: Extracted text:  yeah how many billion like many billions of parameters
+2024-06-23 10:35:44,501 INFO: Merged text: Here is the merged text:
+
+Let's make a new project. The project is going to be very good at training pets. It will be using AI. Okay, the kind of AI we want to use for this project might be a transformer model. Very big transformer model with so many billions of parameters. Yeah, how many billion, like many billions of parameters.
+2024-06-23 10:35:44,502 INFO: Previous entities: {'being very good', 'new project', 'transformer model', 'ai', 'training pets'}
+2024-06-23 10:35:44,502 INFO: Previous relationships: [('new project', 'has goal', 'being very good'), ('training pets', 'depends on', 'ai'), ('new project', 'has goal', 'training pets'), ('being very good', 'depends on', 'ai'), ('being very good', 'solved by', 'transformer model')]
+2024-06-23 10:35:45,614 INFO: Entities and relationships created in database
+2024-06-23 10:35:46,273 INFO: Audio file saved
+2024-06-23 10:35:46,787 INFO: Extracted text:  like many
+2024-06-23 10:35:47,094 INFO: Merged text: Here is the merged text:
+
+Let's make a new project. The project is going to be very good at training pets. It will be using AI. Okay, the kind of AI we want to use for this project might be a transformer model. Very big transformer model with so many billions of parameters. Yeah, how many billion, like many billions of parameters. like many
+2024-06-23 10:35:47,094 INFO: Previous entities: {'being very good', 'new project', 'transformer model', 'ai', 'training pets'}
+2024-06-23 10:35:47,095 INFO: Previous relationships: [('new project', 'has goal', 'being very good'), ('training pets', 'depends on', 'ai'), ('new project', 'has goal', 'training pets'), ('being very good', 'depends on', 'ai'), ('being very good', 'solved by', 'transformer model')]
+2024-06-23 10:35:48,276 INFO: Entities and relationships created in database
+2024-06-23 10:36:00,752 INFO: Audio file saved
+2024-06-23 10:36:01,803 INFO: Extracted text:  The most important new ad for this is we need new GPUs.
+2024-06-23 10:36:02,258 INFO: Merged text: Here is the merged text:
+
+Let's make a new project. The project is going to be very good at training pets. It will be using AI. Okay, the kind of AI we want to use for this project might be a transformer model. Very big transformer model with so many billions of parameters. Yeah, how many billion, like many billions of parameters. like many The most important new ad for this is we need new GPUs.
+2024-06-23 10:36:02,258 INFO: Previous entities: {'being very good', 'new project', 'transformer model', 'ai', 'training pets'}
+2024-06-23 10:36:02,259 INFO: Previous relationships: [('new project', 'has goal', 'being very good'), ('training pets', 'depends on', 'ai'), ('new project', 'has goal', 'training pets'), ('being very good', 'depends on', 'ai'), ('being very good', 'solved by', 'transformer model')]
+2024-06-23 10:36:04,066 INFO: Entities and relationships created in database
+2024-06-23 10:36:05,741 INFO: Audio file saved
+2024-06-23 10:36:06,278 INFO: Extracted text:  to train the model. That is the current focus is that we need new GPUs.
+2024-06-23 10:36:06,845 INFO: Merged text: Here is the merged text:
+
+Let's make a new project. The project is going to be very good at training pets. It will be using AI. Okay, the kind of AI we want to use for this project might be a transformer model. Very big transformer model with so many billions of parameters. Yeah, how many billion, like many billions of parameters. like many The most important new ad for this is we need new GPUs to train the model. That is the current focus is that we need new GPUs.
+2024-06-23 10:36:06,846 INFO: Previous entities: {'ai', 'being very good', 'new project', 'transformer model', 'new gpus', 'training pets'}
+2024-06-23 10:36:06,846 INFO: Previous relationships: [('new project', 'has goal', 'being very good'), ('training pets', 'depends on', 'ai'), ('new project', 'has goal', 'training pets'), ('being very good', 'depends on', 'ai'), ('being very good', 'solved by', 'transformer model'), ('ai', 'depends on', 'new gpus')]
+2024-06-23 10:36:08,746 INFO: Entities and relationships created in database
+2024-06-23 10:36:09,923 INFO: Audio file saved
+2024-06-23 10:36:10,456 INFO: Extracted text:  to train the model? The UCI one.
+2024-06-23 10:36:11,179 INFO: Merged text: Here is the merged text:
+
+Let's make a new project. The project is going to be very good at training pets. It will be using AI. Okay, the kind of AI we want to use for this project might be a transformer model. Very big transformer model with so many billions of parameters. Yeah, how many billion, like many billions of parameters. like many The most important new ad for this is we need new GPUs to train the model. That is the current focus is that we need new GPUs to train the model? The UCI one.
+2024-06-23 10:36:11,179 INFO: Previous entities: {'ai', 'being very good', 'new project', 'ai dependency issue', 'transformer model', 'new gpus', 'training pets'}
+2024-06-23 10:36:11,179 INFO: Previous relationships: [('new project', 'has goal', 'being very good'), ('training pets', 'depends on', 'ai'), ('new project', 'has goal', 'training pets'), ('being very good', 'depends on', 'ai'), ('being very good', 'solved by', 'transformer model'), ('ai', 'depends on', 'new gpus'), ('ai', 'solved by', 'transformer model'), ('new gpus', 'solves', 'ai dependency issue')]
+2024-06-23 10:36:12,546 INFO: Entities and relationships created in database
+2024-06-23 10:36:45,277 INFO: Correlation edges created in database

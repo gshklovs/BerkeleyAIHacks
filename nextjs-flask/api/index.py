@@ -51,6 +51,7 @@ def upload_audio():
         audio_file.write(audio_data)
     return "Audio received", 200
 
+
 @app.route("/api/merge", methods=["POST"])  # needs work
 def merge():
     data = request.get_json()
@@ -76,6 +77,7 @@ def extract():
     )
     # triplets is returned as triplets, existing_entities, existing_relationships
     return triplets
+
 
 @app.route("/api/create_node", methods=("POST",))
 def create_node():
@@ -122,8 +124,6 @@ def create_relationships():
     return "DONE"
 
 
-
-
 @app.route("/api/new_meeting")
 def new_meeting():
     session["session_id"] = "".join(random.choices("ABCDEFGHJKMNPQRSTUVWXYZ"))
@@ -145,15 +145,26 @@ def graph():
 def speech_to_text():
     return extract_text_from_audio()
 
+
 @app.route("/api/current_path")
 def current_path():
-    result = graphdb.execute_query("MATCH p=(k)-[:RELATIONSHIP*1..]->(n:Entity {current: TRUE})-[:RELATIONSHIP*1..]->(m) return p order by length(p) DESC LIMIT 1")
-    return [x["name"] for x in result[0][0]["p"].nodes]
+    result = graphdb.execute_query(
+        "MATCH p=(k)-[:RELATIONSHIP*0..]->(n:Entity {current: TRUE})-[:RELATIONSHIP*0..]->(m) return p order by length(p) DESC LIMIT 1"
+    )
+    if result and result[0] and result[0][0]:
+        return [x["name"] for x in result[0][0]["p"].nodes]
+    else:
+        return []
+
 
 @app.route("/api/current_topic")
 def current_topic():
     result = graphdb.execute_query("MATCH (n :Entity {current: TRUE}) RETURN n")
-    return result[0][0]["n"]["name"]
+    if result and result[0] and result[0][0]:
+        return result[0][0]["n"]["name"]
+    else:
+        return ""
+
 
 # async def websocket_handler(websocket, path):
 #     async for message in websocket:
@@ -218,13 +229,18 @@ def record_and_build():
 
     remaining_entities = set(global_entities) - set(prev_entities)
     remaining_relationships = set(global_relationships) - set(prev_relationships)
-
     with graphdb.session() as db_session:
         with db_session.begin_transaction() as tx:
-            tx.run("MATCH (n:Entity {current: TRUE}) SET n.current = FALSE")
             for entity in remaining_entities:
                 tx.run("MERGE (:Entity {name: $name})", name=entity)
-            tx.run("MATCH(n:Entity {name: $name}) SET n.current = TRUE", name=remaining_entities[-1])
+            if len(remaining_entities) > 0:
+                tx.run("MATCH (n:Entity {current: TRUE}) SET n.current = FALSE")
+                tx.run(
+                    "MATCH(n:Entity {name: $name}) SET n.current = TRUE",
+                    name=list(remaining_entities)[-1],
+                )
+                app.logger.debug(f"Setting {list(remaining_entities)[-1]} as current")
+
             for src, rel, dest in remaining_relationships:
                 tx.run(
                     """
@@ -243,6 +259,9 @@ def record_and_build():
 
 @app.route("/api/delete_all", methods=["POST"])
 def delete_nodes():
+    prev_text = ""
+    global_entities = set()
+    global_relationships = []
     with graphdb.session() as db_session:
         with db_session.begin_transaction() as tx:
             tx.run("MATCH (n) DETACH DELETE n")
@@ -253,15 +272,17 @@ def delete_nodes():
 @app.route("/api/create_correlation_edges", methods=["POST"])
 def create_correlation_edges():
     global global_entities
-    
+
     # Compute similarities
     similarities = compute_similarities(global_entities)
     threshold = 0.7  # You can adjust this threshold as needed
-    
+
     correlation_edges = [
-        (entity1, entity2) for (entity1, entity2), sim in similarities.items() if sim > threshold
+        (entity1, entity2)
+        for (entity1, entity2), sim in similarities.items()
+        if sim > threshold
     ]
-    
+
     with graphdb.session() as db_session:
         with db_session.begin_transaction() as tx:
             for src, dest in correlation_edges:
@@ -278,7 +299,6 @@ def create_correlation_edges():
             tx.commit()
     app.logger.info("Correlation edges created in database")
     return "DONE"
-
 
 
 if __name__ == "__main__":
