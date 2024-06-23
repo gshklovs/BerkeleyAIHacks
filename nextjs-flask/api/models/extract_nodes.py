@@ -80,7 +80,7 @@ def extract_entities_and_relationships(
                 "BE DETAILED INITIALLY, THEN COMPARE TO CURRENT RELATIONSHIPS AND SEE IF FIT TO ADD NEW ONE\n"
                 "ENSURE 'SOLVED BY' RELATIONSHIPS ONLY CONNECT TO LEAF NODE SOLUTIONS THAT DO NOT REQUIRE FURTHER ACTIONS OR DEPENDENCIES\n"
                 "ENSURE 'DEPENDS ON' RELATIONSHIPS INDICATE UNSOLVED ISSUES\n"
-                "DO NOT HAVE DUPLICATES\n"
+                "DO NOT HAVE DUPLICATES, MAKE SURE ENTITIES WITH SAME MEANING AREN'T CREATED\n"
                 "Please provide the output strictly in the following format with no variance:\n"
                 "1. Source Entity: <problem/solution entity>\n"
                 "2. Relationship: <relationship>\n"
