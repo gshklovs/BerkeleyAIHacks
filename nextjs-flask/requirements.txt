@@ -102,3 +102,5 @@ flask_cors
 sounddevice
 pydub
 groq
+transformers
+torch

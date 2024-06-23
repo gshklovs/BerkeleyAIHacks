@@ -8,6 +8,7 @@ from neo4j import GraphDatabase
 from models.assisted_merge import assistive_merge
 from models.extract_nodes import extract_entities_and_relationships
 from models.speech_to_text import extract_text_from_audio
+from models.similarities import compute_similarities
 import json
 import logging
 from logging.handlers import RotatingFileHandler
@@ -74,8 +75,6 @@ def upload_audio():
         audio_file.write(audio_data)
     return "Audio received", 200
 
-    return "Audio received", 200
-
 
 @app.route("/api/merge", methods=["POST"])  # needs work
 def merge():
@@ -104,12 +103,8 @@ def extract():
     return triplets
 
 
-def create_node(entity):
-    graphdb.execute_query("MERGE (:Entity {name: $name})", name=entity)
-
-
 @app.route("/api/create_node", methods=("POST",))
-def create_node_req():
+def create_node():
     data = request.get_json()
     graphdb.execute_query("MERGE (:Entity {name: $name})", name=data["entity"])
     return "DONE"
@@ -173,6 +168,20 @@ def graph():
 @app.route("/api/speech_to_text", methods=["POST"])  # needs work
 def speech_to_text():
     return extract_text_from_audio()
+
+
+@app.route("/api/current_path")
+def current_path():
+    result = graphdb.execute_query(
+        "MATCH p=(k)-[:RELATIONSHIP*1..]->(n:Entity {current: TRUE})-[:RELATIONSHIP*1..]->(m) return p order by length(p) DESC LIMIT 1"
+    )
+    return [x["name"] for x in result[0][0]["p"].nodes]
+
+
+@app.route("/api/current_topic")
+def current_topic():
+    result = graphdb.execute_query("MATCH (n :Entity {current: TRUE}) RETURN n")
+    return result[0][0]["n"]["name"]
 
 
 # async def websocket_handler(websocket, path):
@@ -256,6 +265,38 @@ def record_and_build():
                 )
             tx.commit()
     app.logger.info("Entities and relationships created in database")
+    return "DONE"
+
+
+@app.route("/api/create_correlation_edges", methods=["POST"])
+def create_correlation_edges():
+    global global_entities
+
+    # Compute similarities
+    similarities = compute_similarities(global_entities)
+    threshold = 0.7  # You can adjust this threshold as needed
+
+    correlation_edges = [
+        (entity1, entity2)
+        for (entity1, entity2), sim in similarities.items()
+        if sim > threshold
+    ]
+
+    with graphdb.session() as db_session:
+        with db_session.begin_transaction() as tx:
+            for src, dest in correlation_edges:
+                tx.run(
+                    """
+                    MATCH (a:Entity {name: $source})
+                    MATCH (b:Entity {name: $dest})
+                    MERGE (a)-[:CORRELATED {similarity: $similarity}]->(b)
+                    """,
+                    source=src,
+                    dest=dest,
+                    similarity=similarities[(src, dest)],
+                )
+            tx.commit()
+    app.logger.info("Correlation edges created in database")
     return "DONE"
 
 
