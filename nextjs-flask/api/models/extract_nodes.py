@@ -12,8 +12,23 @@ config = dotenv_values(".env")
 llm = Groq(model="llama3-70b-8192", api_key=config["GROQ_API_KEY"])
 
 
-def extract_entities_and_relationships(merged_text, existing_entities, existing_relationships):
-    # Include current entities and relationships in the prompt
+def extract_entities_and_relationships(merged_text, existing_entities=None, existing_relationships=None):
+    """
+    Extracts entities and relationships from the given text, considering existing entities and relationships
+    to avoid redundancy. This function utilizes the Groq LLM for the extraction process.
+    
+    Args:
+    - merged_text (str): The text from which to extract entities and relationships.
+    - existing_entities (set): The set of existing entities.
+    - existing_relationships (list): The list of existing relationships.
+
+    Returns:
+    - list: A list of new entity-relationship triplets.
+    """
+    if existing_entities is None:
+        existing_entities = set()
+    if existing_relationships is None:
+        existing_relationships = []
     current_entities = "\n".join(existing_entities)
     current_relationships = "\n".join(f"{r[0]} - {r[1]} - {r[2]}" for r in existing_relationships)
 
@@ -57,6 +72,16 @@ def extract_entities_and_relationships(merged_text, existing_entities, existing_
     return triplets
 
 def parse_entities_and_relationships(structured_response):
+
+    """
+    Parses the structured response to extract entity-relationship triplets.
+
+    Args:
+    - structured_response (str): The structured response containing entity-relationship data.
+
+    Returns:
+    - list: A list of dictionaries representing the triplets.
+    """
     lines = structured_response.split("\n")
     triplets = []
     current_triplet = {}
@@ -78,11 +103,26 @@ def parse_entities_and_relationships(structured_response):
     return triplets
 
 def normalize_entity_name(entity):
+    """
+    Normalizes the entity name for consistency.
+
+    Args:
+    - entity (str): The entity name to normalize.
+
+    Returns:
+    - str: The normalized entity name.
+    """
     entity = entity.lower().strip()
     entity = entity.replace("inc.", "inc").replace("corp.", "corp")
     return entity
 
 def update_entities_and_relationships(triplets):
+    """
+    Updates the global sets of entities and relationships with new triplets.
+
+    Args:
+    - triplets (list): A list of dictionaries representing the triplets.
+    """
     global existing_entities, existing_relationships
     for triplet in triplets:
         try:
