@@ -1,9 +1,38 @@
-2024-06-23 02:37:15,345 INFO: Previous relationships: [('unknown speaker', 'will meet', 'you'), ('you', 'will be seen by', 'unknown speaker'), ('saturday', 'is the meeting date for', 'unknown speaker and you'), ('unknown speaker and you', 'has meeting date', 'saturday'), ('unknown speaker', 'will create', 'objective'), ('unknown speaker', 'has', 'previous relationships'), ('unknown speaker', 'has', 'previous entries'), ('unknown speaker', 'will send', 'new audio file'), ('unknown speaker', 'has', 'objective'), ('you', 'will transcribe', 'sound effects'), ('sound effects', 'are made by', 'unknown speaker'), ('unknown speaker', 'will make', 'sound effects'), ('unknown speaker', 'created', 'objective')]
-2024-06-23 02:37:16,773 INFO: Entities and relationships created in database
-2024-06-23 02:37:19,501 INFO: Audio file saved
-2024-06-23 02:37:20,056 INFO: Extracted text:  It actually works. And there's merging.
-2024-06-23 02:37:20,563 INFO: Merged text: Here is the merged text:
+2024-06-23 07:48:33,164 INFO: Previous relationships: [('undefined error message', 'is caused by', 'incorrect code'), ('incorrect code', 'causes', 'undefined error message'), ('undefined error message', 'is a problem of', 'phone functionality'), ('phone functionality', 'has issue', 'incorrect code'), ('api slash current path', 'is a solution to', 'incorrect code'), ('incorrect code', 'is the cause of', 'phone functionality calling 3000'), ('incorrect code', 'causes', 'phone functionality calling 3000'), ('linearized text', 'is related to', 'api slash current path'), ('environment variable', 'solves', 'incorrect code'), ('api slash current path', 'solves', 'incorrect code'), ('incorrect code', 'is related to', 'api slash current path')]
+2024-06-23 07:48:34,406 INFO: Entities and relationships created in database
+2024-06-23 07:48:37,038 INFO: Audio file saved
+2024-06-23 07:48:37,419 INFO: Extracted text:  or not or at the moment or like derek has completed his part and then
+2024-06-23 07:48:38,130 INFO: Merged text: Here is the merged text:
 
-Here is the merged text: uh and then we'll see you Saturday. and we have created our objective or something like that. Very exciting! You can see all of our previous relationships and their previous entries. and every time that we send a new audio file Clap, clap, clap. Okay, now I want you to describe... transcribe i want you to transcribe the sound effects that i will be making Hello, I'm you I'm sorry. Oh, he said clap clap. I'll cut that. I said hello, I'm here and I'm sorry. Dude, it works. It actually works. And there's merging.
-2024-06-23 02:37:20,563 INFO: Previous entities: {'unknown speaker and you', 'sound effects', 'you', 'previous entries', 'saturday', 'unknown speaker', 'previous relationships', 'new audio file', 'objective'}
-2024-06-23 02:37:20,563 INFO: Previous relationships: [('unknown speaker', 'will meet', 'you'), ('you', 'will be seen by', 'unknown speaker'), ('saturday', 'is the meeting date for', 'unknown speaker and you'), ('unknown speaker and you', 'has meeting date', 'saturday'), ('unknown speaker', 'will create', 'objective'), ('unknown speaker', 'has', 'previous relationships'), ('unknown speaker', 'has', 'previous entries'), ('unknown speaker', 'will send', 'new audio file'), ('unknown speaker', 'has', 'objective'), ('you', 'will transcribe', 'sound effects'), ('sound effects', 'are made by', 'unknown speaker'), ('unknown speaker', 'will make', 'sound effects'), ('unknown speaker', 'created', 'objective')]
+It isn't correct. It keeps saying undefined and then for on the phone. And this is, it's really trying to go too undefined. What is it's supposed to be doing. I think this is mine. This is, I mean, this is how mine is looking. I'm sorry. Oh, are you calling 3000? Is that why? No, this is doing API slash current path. Yeah, this one's calling... 3000 why is it doing that linearized text Where is it? Oh! Yeah, is it just my environment variable? Is all I have to say? what the frick why did this not get in I hate not speaking Gizmo it's I'm going to brush my teeth so It's gonna be a long day Okay. yes to like, this is the thing that like, it works now. Like the whole recording. pipeline or are we visualizing the graph or not or at the moment or like derek has completed his part and then
+2024-06-23 07:48:38,131 INFO: Previous entities: {'phone functionality calling 3000', 'undefined error message', 'incorrect code', 'phone functionality', 'api slash current path', 'environment variable', 'linearized text'}
+2024-06-23 07:48:38,131 INFO: Previous relationships: [('undefined error message', 'is caused by', 'incorrect code'), ('incorrect code', 'causes', 'undefined error message'), ('undefined error message', 'is a problem of', 'phone functionality'), ('phone functionality', 'has issue', 'incorrect code'), ('api slash current path', 'is a solution to', 'incorrect code'), ('incorrect code', 'is the cause of', 'phone functionality calling 3000'), ('incorrect code', 'causes', 'phone functionality calling 3000'), ('linearized text', 'is related to', 'api slash current path'), ('environment variable', 'solves', 'incorrect code'), ('api slash current path', 'solves', 'incorrect code'), ('incorrect code', 'is related to', 'api slash current path')]
+2024-06-23 07:48:39,106 INFO: Entities and relationships created in database
+2024-06-23 07:49:38,415 INFO: Audio file saved
+2024-06-23 07:49:38,415 INFO: Audio file saved
+2024-06-23 07:49:38,827 INFO: Extracted text:  uh
+2024-06-23 07:49:38,827 INFO: Extracted text:  uh
+2024-06-23 07:49:38,827 INFO: Merged text:  uh
+2024-06-23 07:49:38,827 INFO: Merged text:  uh
+2024-06-23 07:49:38,827 INFO: Previous entities: set()
+2024-06-23 07:49:38,827 INFO: Previous entities: set()
+2024-06-23 07:49:38,827 INFO: Previous relationships: []
+2024-06-23 07:49:38,827 INFO: Previous relationships: []
+2024-06-23 07:49:41,428 INFO: Audio file saved
+2024-06-23 07:49:41,428 INFO: Audio file saved
+2024-06-23 07:49:41,816 INFO: Extracted text:  so
+2024-06-23 07:49:41,816 INFO: Extracted text:  so
+2024-06-23 07:49:41,994 INFO: Merged text: Here is the merged text:
+
+uh so
+2024-06-23 07:49:41,994 INFO: Merged text: Here is the merged text:
+
+uh so
+2024-06-23 07:49:41,995 INFO: Previous entities: {'outdated software', 'system crashes', 'data inconsistency', 'inefficient code', 'high latency', 'enhance security', 'debug', 'large dataset', 'data validation', 'user complaints', 'network issues', 'software bugs', 'security breach', 'upgrade server', 'slow response time', 'insufficient data', 'user training', 'low accuracy', 'check connection', 'poor performance'}
+2024-06-23 07:49:41,995 INFO: Previous entities: {'outdated software', 'system crashes', 'data inconsistency', 'inefficient code', 'high latency', 'enhance security', 'debug', 'large dataset', 'data validation', 'user complaints', 'network issues', 'software bugs', 'security breach', 'upgrade server', 'slow response time', 'insufficient data', 'user training', 'low accuracy', 'check connection', 'poor performance'}
+2024-06-23 07:49:41,995 INFO: Previous relationships: [('high latency', 'depends on', 'large dataset'), ('slow response time', 'solved by', 'upgrade server'), ('low accuracy', 'depends on', 'insufficient data'), ('network issues', 'solved by', 'check connection'), ('data inconsistency', 'solved by', 'data validation'), ('security breach', 'solved by', 'enhance security'), ('poor performance', 'depends on', 'inefficient code'), ('software bugs', 'solved by', 'debug'), ('system crashes', 'depends on', 'outdated software'), ('user complaints', 'solved by', 'user training')]
+2024-06-23 07:49:41,995 INFO: Previous relationships: [('high latency', 'depends on', 'large dataset'), ('slow response time', 'solved by', 'upgrade server'), ('low accuracy', 'depends on', 'insufficient data'), ('network issues', 'solved by', 'check connection'), ('data inconsistency', 'solved by', 'data validation'), ('security breach', 'solved by', 'enhance security'), ('poor performance', 'depends on', 'inefficient code'), ('software bugs', 'solved by', 'debug'), ('system crashes', 'depends on', 'outdated software'), ('user complaints', 'solved by', 'user training')]
+2024-06-23 07:49:43,514 INFO: Entities and relationships created in database
+2024-06-23 07:49:43,514 INFO: Entities and relationships created in database
+2024-06-23 07:49:44,156 INFO: Entities and relationships created in database
+2024-06-23 07:49:44,156 INFO: Entities and relationships created in database

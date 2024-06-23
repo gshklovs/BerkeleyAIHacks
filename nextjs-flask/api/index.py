@@ -67,7 +67,6 @@ def hello_world():
 
 
 @app.route("/api/upload_audio", methods=["POST"])
-
 @app.route("/api/upload_audio", methods=["POST"])
 def upload_audio():
     audio_data = request.data
@@ -76,12 +75,6 @@ def upload_audio():
     return "Audio received", 200
 
     return "Audio received", 200
-
-
-if __name__ == "__main__":
-if __name__ == "__main__":
-    # app.run(host='0.0.0.0', port=5328)
-    pass
 
 
 @app.route("/api/merge", methods=["POST"])  # needs work

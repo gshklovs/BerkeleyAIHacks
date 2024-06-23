@@ -1,5 +1,4 @@
 import LinearizeText from "./live/linearizer";
-import RecordButton from "./components/RecordButton";
 import Image from "next/image";
 import AudioRecorder from "./components/AudioRecorder";
 
