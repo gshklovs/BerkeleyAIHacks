@@ -1,6 +1,5 @@
-from flask import Flask, request
+from flask import Flask, request, session
 from flask_cors import CORS
-, request, session
 from dotenv import dotenv_values
 import random
 from neo4j import GraphDatabase
