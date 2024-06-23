@@ -14,7 +14,7 @@ export default function LinearizeText() {
     const ideasLength = Object.entries(data).length;
     return (
       <div className="relative flex max-h-[400px] min-h-[400px] w-full max-w-[32rem] flex-col overflow-hidden rounded-lg border bg-background p-6 shadow-lg">
-        <p>{data}</p>
+        <AnimatedList>{data}</AnimatedList>
       </div>
     );
   }
@@ -25,25 +25,25 @@ export default function LinearizeText() {
         const current = (
           await axios.get(process.env.NEXT_PUBLIC_API_URL + "/api/current_path")
         ).data; // Replace with your API endpoint
-        const response = (
+        const topic = (
           await axios.get(
             process.env.NEXT_PUBLIC_API_URL + "/api/current_topic"
           )
         ).data;
         console.log("DATA : DATA : DATA : DATA");
         console.log(current);
-        console.log(response);
-        const entries = Object.values(response);
+        console.log(topic);
+        const entries = Object.values(current);
 
         if (current === CurrentTopic) {
           if (entries.length != CurrLength) {
             const two = [...data, ...entries];
-            setData(response);
+            setData(current);
             setCurrentLength(entries.length);
           }
         } else {
-          setData(response);
-          setCurrentTopic(current);
+          setData(current);
+          setCurrentTopic(topic);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
