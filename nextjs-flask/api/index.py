@@ -82,13 +82,13 @@ def extract():
     # triplets is returned as triplets, existing_entities, existing_relationships
     return triplets
 
-
-def create_node(entity):
-    graphdb.execute_query("MERGE (:Entity {name: $name})", name=entity)
-
+@app.route("/api/current_path")
+def current_path():
+    result = graphdb.execute_query("MATCH p=(k)-[:RELATIONSHIP*1..]->(n:Entity {current: TRUE})-[:RELATIONSHIP*1..]->(m) return p order by length(p) DESC LIMIT 1")
+    return [x["name"] for x in result[0][0]["p"].nodes]
 
 @app.route("/api/create_node", methods=("POST",))
-def create_node_req():
+def create_node():
     data = request.get_json()
     graphdb.execute_query("MERGE (:Entity {name: $name})", name=data["entity"])
     return "DONE"
@@ -130,6 +130,8 @@ def create_relationships():
                 )
             tx.commit()
     return "DONE"
+
+
 
 
 @app.route("/api/new_meeting")
