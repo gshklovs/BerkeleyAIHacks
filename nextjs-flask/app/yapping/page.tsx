@@ -7,23 +7,41 @@ export default function AudioRecorder() {
   const [recording, setRecording] = useState<boolean>(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const startRecording = async () => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    mediaRecorderRef.current = new MediaRecorder(stream);
 
-    mediaRecorderRef.current.ondataavailable = (event: BlobEvent) => {
-      audioChunksRef.current.push(event.data);
-      sendAudioData(event.data);
+    const startNewRecording = () => {
+      if (mediaRecorderRef.current) {
+        mediaRecorderRef.current.stop();
+      }
+      mediaRecorderRef.current = new MediaRecorder(stream);
+
+      // Reset the chunks array to start a fresh recording
+      audioChunksRef.current = [];
+
+      mediaRecorderRef.current.ondataavailable = (event: BlobEvent) => {
+        audioChunksRef.current.push(event.data);
+        sendAudioData(event.data);
+      };
+
+      mediaRecorderRef.current.start(); // Start recording immediately
+      console.log("Recording started at:", new Date().toLocaleTimeString());
     };
 
-    mediaRecorderRef.current.start(5000); // Collect audio data every 5 seconds
+    startNewRecording();
+    intervalRef.current = setInterval(startNewRecording, 5000); // Start new recording every 30 seconds
+
     setRecording(true);
   };
 
   const stopRecording = () => {
     if (mediaRecorderRef.current) {
       mediaRecorderRef.current.stop();
+    }
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
     }
     setRecording(false);
   };
