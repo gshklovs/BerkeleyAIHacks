@@ -13,7 +13,7 @@ llm = Groq(model="llama3-70b-8192", api_key=config["GROQ_API_KEY"])
 
 
 def extract_entities_and_relationships(
-    merged_text, existing_entities=None, existing_relationships=None
+    merged_text, mode="Converse", existing_entities=None, existing_relationships=None
 ):
     """
     Extracts entities and relationships from the given text, considering existing entities and relationships
@@ -36,10 +36,8 @@ def extract_entities_and_relationships(
         f"{r[0]} - {r[1]} - {r[2]}" for r in existing_relationships
     )
 
-    response = llm.chat(
-        messages=[
-            ChatMessage(role="system", content="You are a helpful assistant."),
-            ChatMessage(
+    if mode == "Converse":
+        prompt = ChatMessage(
                 role="user",
                 content=(
                     "Extract detailed entities and relationships without excessive redundancy from the following text:\n"
@@ -69,8 +67,42 @@ def extract_entities_and_relationships(
                     "1. Source Entity: bill gates\n2. Relationship: co-founded\n3. Destination Entity: microsoft\n"
                     "1. Source Entity: jon\n2. Relationship: is married to\n3. Destination Entity: sara\n"
                     "OUTPUT MODEL IN THIS FORMAT AND DETAIL\n"
-                ),
-            ),
+                )
+        )
+    elif mode == "Build":
+        prompt = ChatMessage(
+                role="user",
+                content=(
+                    "Extract detailed entities representing problems and solutions without excessive redundancy from the following text:\n"
+                    f"{merged_text}\n"
+                    "Current entities:\n" + current_entities + "\n"
+                    "Current relationships:\n" + current_relationships + "\n"
+                    "BE DETAILED INITIALLY, THEN COMPARE TO CURRENT RELATIONSHIPS AND SEE IF FIT TO ADD NEW ONE\n"
+                    "DO NOT HAVE DUPLICATES\n"
+                    "Please provide the output strictly in the following format with no variance:\n"
+                    "1. Source Entity: <problem/solution entity>\n"
+                    "2. Relationship: <relationship>\n"
+                    "3. Destination Entity: <problem/solution entity>\n"
+                    "Ensure that each triplet is listed in the exact same format for consistency and avoid redundancy."
+                    "\nExamples:\n"
+                    "1. Source Entity: high latency\n2. Relationship: depends on\n3. Destination Entity: large dataset\n"
+                    "1. Source Entity: slow response time\n2. Relationship: solved by\n3. Destination Entity: upgrade server\n"
+                    "1. Source Entity: low accuracy\n2. Relationship: depends on\n3. Destination Entity: insufficient data\n"
+                    "1. Source Entity: network issues\n2. Relationship: solved by\n3. Destination Entity: check connection\n"
+                    "1. Source Entity: data inconsistency\n2. Relationship: solved by\n3. Destination Entity: data validation\n"
+                    "1. Source Entity: security breach\n2. Relationship: solved by\n3. Destination Entity: enhance security\n"
+                    "1. Source Entity: poor performance\n2. Relationship: depends on\n3. Destination Entity: inefficient code\n"
+                    "1. Source Entity: software bugs\n2. Relationship: solved by\n3. Destination Entity: debug\n"
+                    "1. Source Entity: system crashes\n2. Relationship: depends on\n3. Destination Entity: outdated software\n"
+                    "1. Source Entity: user complaints\n2. Relationship: solved by\n3. Destination Entity: user training\n"
+                    "OUTPUT MODEL IN THIS FORMAT AND DETAIL\n"
+                )
+        )
+
+    response = llm.chat(
+        messages=[
+            ChatMessage(role="system", content="You are a helpful assistant."),
+            prompt
         ]
     )
     structured_response = response.message.content.strip()

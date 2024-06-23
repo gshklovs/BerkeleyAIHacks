@@ -208,10 +208,10 @@ def record_and_build():
     app.logger.info(f"Previous entities: {prev_entities}")
     prev_relationships = global_relationships.copy()
     app.logger.info(f"Previous relationships: {prev_relationships}")
-
+    mode = "Build"
     triplets, global_entities, global_relationships = (
         extract_entities_and_relationships(
-            merged_text, global_entities, global_relationships
+            merged_text, mode, global_entities, global_relationships
         )
     )
 
