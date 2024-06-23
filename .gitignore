@@ -1,2 +1,5 @@
 notebooks/
 .env
+nextjs-flask/app.log
+nextjs-flask/app.log.1
+nextjs-flask/received_audio.mp3
