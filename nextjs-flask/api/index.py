@@ -51,12 +51,6 @@ def upload_audio():
         audio_file.write(audio_data)
     return "Audio received", 200
 
-
-if __name__ == "__main__":
-    # app.run(host='0.0.0.0', port=5328)
-    pass
-
-
 @app.route("/api/merge", methods=["POST"])  # needs work
 def merge():
     data = request.get_json()
@@ -82,11 +76,6 @@ def extract():
     )
     # triplets is returned as triplets, existing_entities, existing_relationships
     return triplets
-
-@app.route("/api/current_path")
-def current_path():
-    result = graphdb.execute_query("MATCH p=(k)-[:RELATIONSHIP*1..]->(n:Entity {current: TRUE})-[:RELATIONSHIP*1..]->(m) return p order by length(p) DESC LIMIT 1")
-    return [x["name"] for x in result[0][0]["p"].nodes]
 
 @app.route("/api/create_node", methods=("POST",))
 def create_node():
@@ -156,6 +145,15 @@ def graph():
 def speech_to_text():
     return extract_text_from_audio()
 
+@app.route("/api/current_path")
+def current_path():
+    result = graphdb.execute_query("MATCH p=(k)-[:RELATIONSHIP*1..]->(n:Entity {current: TRUE})-[:RELATIONSHIP*1..]->(m) return p order by length(p) DESC LIMIT 1")
+    return [x["name"] for x in result[0][0]["p"].nodes]
+
+@app.route("/api/current_topic")
+def current_topic():
+    result = graphdb.execute_query("MATCH (n :Entity {current: TRUE}) RETURN n")
+    return result[0][0]["n"]["name"]
 
 # async def websocket_handler(websocket, path):
 #     async for message in websocket:
