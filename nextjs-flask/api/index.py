@@ -132,14 +132,7 @@ def new_meeting():
 
 @app.route("/api/graph")
 def graph():
-    if not conn.is_connected():
-        return "Not connected to database", 500
-    cursor = conn.cursor()
-    cursor.execute(
-        f"SELECT * FROM {config['SINGLESTORE_DB']} WHERE sessionId={session['session_id']}"
-    )
-    return cursor.fetchall()
-
+    return graphdb.execute_query("MATCH (n) RETURN n")
 
 @app.route("/api/speech_to_text", methods=["POST"])  # needs work
 def speech_to_text():
@@ -147,7 +140,7 @@ def speech_to_text():
 
 @app.route("/api/current_path")
 def current_path():
-    result = graphdb.execute_query("MATCH p=(k)-[:RELATIONSHIP*1..]->(n:Entity {current: TRUE})-[:RELATIONSHIP*1..]->(m) return p order by length(p) DESC LIMIT 1")
+    result = graphdb.execute_query("MATCH p=(k)-[:RELATIONSHIP*0..]->(n:Entity {current: TRUE})-[:RELATIONSHIP*0..]->(m) return p order by length(p) DESC LIMIT 1")
     return [x["name"] for x in result[0][0]["p"].nodes]
 
 @app.route("/api/current_topic")
