@@ -146,7 +146,7 @@ def speech_to_text():
     return extract_text_from_audio()
 
 
-@app.route("/api/current_path")
+@app.route("/api/current_path", methods=("POST",))
 def current_path():
     result = graphdb.execute_query(
         "MATCH p=(k)-[:RELATIONSHIP*0..]->(n:Entity {current: TRUE})-[:RELATIONSHIP*0..]->(m) return p order by length(p) DESC LIMIT 1"
@@ -159,9 +159,12 @@ def current_path():
 
 @app.route("/api/current_topic")
 def current_topic():
-    result = graphdb.execute_query("MATCH (n :Entity {current: TRUE}) RETURN n")
+    result = graphdb.execute_query(
+        "MATCH p=(k)-[:RELATIONSHIP*0..]->(n:Entity {current: TRUE})-[:RELATIONSHIP*0..]->(m) return p order by length(p) DESC LIMIT 1"
+    )
     if result and result[0] and result[0][0]:
-        return result[0][0]["n"]["name"]
+        topics = [x["name"] for x in result[0][0]["p"].nodes]
+        return topics[0]
     else:
         return ""
 
@@ -202,7 +205,8 @@ def current_topic():
 @app.route("/api/record_and_build", methods=["POST"])
 def record_and_build():
     global prev_text, global_entities, global_relationships
-
+    if len(prev_text.split()) > 250:
+        prev_text = ""
     audio_file = request.files["file"]
     audio_file.save("received_audio.mp3")
     app.logger.info("Audio file saved")
@@ -220,7 +224,7 @@ def record_and_build():
     app.logger.info(f"Previous entities: {prev_entities}")
     prev_relationships = global_relationships.copy()
     app.logger.info(f"Previous relationships: {prev_relationships}")
-    mode = "Build"
+    mode = "Converse"
     triplets, global_entities, global_relationships = (
         extract_entities_and_relationships(
             merged_text, mode, global_entities, global_relationships
@@ -275,7 +279,7 @@ def create_correlation_edges():
 
     # Compute similarities
     similarities = compute_similarities(global_entities)
-    threshold = 0.7  # You can adjust this threshold as needed
+    threshold = 0.81  # You can adjust this threshold as needed
 
     correlation_edges = [
         (entity1, entity2)

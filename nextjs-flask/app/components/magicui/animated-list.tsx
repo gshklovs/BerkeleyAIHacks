@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import React, { ReactElement, useEffect, useMemo, useState } from "react";
-
+import { LampContainer, LampDemo } from "../aceternity/lamp";
 export const AnimatedList = React.memo(
   ({
     className,
@@ -26,13 +26,13 @@ export const AnimatedList = React.memo(
 
     const itemsToShow = useMemo(
       () => childrenArray.slice(0, index + 1).reverse(),
-      [index, childrenArray],
+      [index, childrenArray]
     );
 
     return (
       <div className={`flex flex-col items-center gap-4 ${className}`}>
         <AnimatePresence>
-          {itemsToShow.map((item) => (
+          {childrenArray.map((item) => (
             <AnimatedListItem key={(item as ReactElement).key}>
               {item}
             </AnimatedListItem>
@@ -40,7 +40,7 @@ export const AnimatedList = React.memo(
         </AnimatePresence>
       </div>
     );
-  },
+  }
 );
 
 AnimatedList.displayName = "AnimatedList";

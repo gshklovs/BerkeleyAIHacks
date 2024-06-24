@@ -1,50 +1,39 @@
 "use client";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
-import { cn } from "@/lib/utils";
+import { LampContainer } from "../components/aceternity/lamp";
 import { AnimatedList } from "@/components/magicui/animated-list";
 
 export default function LinearizeText() {
-  const [data, setData] = useState([]);
-  const [CurrentTopic, setCurrentTopic] = useState("");
-  const [CurrLength, setCurrentLength] = useState(0);
-
-  function createList() {
-    const ideas = Object.entries(data);
-    const ideasLength = Object.entries(data).length;
-    return (
-      <div className="relative flex max-h-[400px] min-h-[400px] w-full max-w-[32rem] flex-col overflow-hidden rounded-lg border bg-background p-6 shadow-lg">
-        <AnimatedList>{data}</AnimatedList>
-      </div>
-    );
-  }
+  const [data, setData] = useState<any[]>([]);
+  const [currentTopic, setCurrentTopic] = useState("");
+  const [currentLength, setCurrentLength] = useState(0);
+  const [curHtml, setCurHtml] = useState<JSX.Element | null>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const current = (
-          await axios.get(process.env.NEXT_PUBLIC_API_URL + "/api/current_path")
-        ).data; // Replace with your API endpoint
-        const topic = (
-          await axios.get(
-            process.env.NEXT_PUBLIC_API_URL + "/api/current_topic"
-          )
-        ).data;
-        console.log("DATA : DATA : DATA : DATA");
-        console.log(current);
-        console.log(topic);
+        const currentResponse = await axios.post(
+          process.env.NEXT_PUBLIC_API_URL + "/api/current_path"
+        );
+        const topicResponse = await axios.get(
+          process.env.NEXT_PUBLIC_API_URL + "/api/current_topic"
+        );
+
+        const current = currentResponse.data;
+        const topic = topicResponse.data;
         const entries = Object.values(current);
 
-        if (current === CurrentTopic) {
-          if (entries.length != CurrLength) {
-            const two = [...data, ...entries];
-            setData(current);
-            setCurrentLength(entries.length);
-          }
-        } else {
-          setData(current);
-          setCurrentTopic(topic);
+        if (topic === currentTopic && entries.length === currentLength) {
+          // No changes, do nothing
+          return;
         }
+
+        const updatedData = [...entries];
+
+        setData(updatedData);
+        setCurrentLength(entries.length);
+        setCurrentTopic(topic);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -57,9 +46,31 @@ export default function LinearizeText() {
     }, 3000);
 
     return () => clearInterval(interval);
-  }, [CurrentTopic, CurrLength]);
+  }, [currentTopic, currentLength]);
 
-  var displayHtml = createList();
-
-  return <div>{displayHtml}</div>;
+  return (
+    <div className="w-full text-6xl pt-16">
+      {data.length > 0 ? (
+        <>
+          <div className="bg-black/20 relative flex max-h-[400px] min-h-[400px] w-full max-w-[32rem] flex-col overflow-hidden rounded-lg border bg-background p-6 shadow-lg">
+            <AnimatedList>{data}</AnimatedList>
+          </div>
+          <div>
+            Current topic:
+            <div className="max-w-full bg-blue-500/20 outline-blue-500 text-white px-2 py-1 rounded-md text-sm font-medium mr-2 border border-blue-500">
+              {currentTopic}
+            </div>
+          </div>
+          <div>
+            Current path:
+            <div className="max-w-full bg-blue-500/20 outline-blue-500 text-white px-2 py-1 rounded-md text-sm font-medium mr-2 border border-blue-500">
+              {JSON.stringify(data)}
+            </div>
+          </div>{" "}
+        </>
+      ) : (
+        <div></div>
+      )}
+    </div>
+  );
 }

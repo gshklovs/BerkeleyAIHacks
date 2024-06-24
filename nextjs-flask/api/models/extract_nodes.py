@@ -38,80 +38,81 @@ def extract_entities_and_relationships(
 
     if mode == "Converse":
         prompt = ChatMessage(
-                role="user",
-                content=(
-                    "Extract detailed entities and relationships without excessive redundancy from the following text:\n"
-                    f"{merged_text}\n"
-                    "Current entities:\n" + current_entities + "\n"
-                    "Current relationships:\n" + current_relationships + "\n"
-                    "BE DETAILED INITIALLY, THEN COMPARE TO CURRENT RELATIONSHIPS AND SEE IF FIT TO ADD NEW ONE\n"
-                    "DO NOT HAVE DUPLICATES\n"
-                    "Please provide the output strictly in the following format with no variance:\n"
-                    "1. Source Entity: <source entity>\n"
-                    "2. Relationship: <relationship>\n"
-                    "3. Destination Entity: <destination entity>\n"
-                    "Ensure that each triplet is listed in the exact same format for consistency and avoid redundancy."
-                    "\nExamples:\n"
-                    "1. Source Entity: alice\n2. Relationship: is the CEO of\n3. Destination Entity: acme corp\n"
-                    "1. Source Entity: acme corp\n2. Relationship: will acquire\n3. Destination Entity: widget inc\n"
-                    "1. Source Entity: bob\n2. Relationship: is the CTO of\n3. Destination Entity: acme corp\n"
-                    "1. Source Entity: john\n2. Relationship: works at\n3. Destination Entity: google\n"
-                    "1. Source Entity: sarah\n2. Relationship: is married to\n3. Destination Entity: david\n"
-                    "1. Source Entity: amazon\n2. Relationship: acquired\n3. Destination Entity: whole foods\n"
-                    "1. Source Entity: elon musk\n2. Relationship: founded\n3. Destination Entity: spacex\n"
-                    "1. Source Entity: jane\n2. Relationship: lives in\n3. Destination Entity: new york\n"
-                    "1. Source Entity: microsoft\n2. Relationship: developed\n3. Destination Entity: windows\n"
-                    "1. Source Entity: professor smith\n2. Relationship: teaches\n3. Destination Entity: mathematics\n"
-                    "1. Source Entity: tesla\n2. Relationship: launched\n3. Destination Entity: model s\n"
-                    "1. Source Entity: facebook\n2. Relationship: rebranded to\n3. Destination Entity: meta\n"
-                    "1. Source Entity: bill gates\n2. Relationship: co-founded\n3. Destination Entity: microsoft\n"
-                    "1. Source Entity: jon\n2. Relationship: is married to\n3. Destination Entity: sara\n"
-                    "OUTPUT MODEL IN THIS FORMAT AND DETAIL\n"
-                )
+            role="user",
+            content=(
+                "Extract detailed entities and relationships without excessive redundancy from the following text:\n"
+                f"{merged_text}\n"
+                "Current entities:\n" + current_entities + "\n"
+                "Current relationships:\n" + current_relationships + "\n"
+                "BE DETAILED INITIALLY, THEN COMPARE TO CURRENT RELATIONSHIPS AND SEE IF FIT TO ADD NEW ONE\n"
+                "Make sure relationships are LOGICALLY POSSIBLE!\n"
+                "DO NOT HAVE DUPLICATES\n"
+                "Please provide the output strictly in the following format with no variance:\n"
+                "1. Source Entity: <source entity>\n"
+                "2. Relationship: <relationship>\n"
+                "3. Destination Entity: <destination entity>\n"
+                "Ensure that each triplet is listed in the exact same format for consistency and avoid redundancy."
+                "\nExamples:\n"
+                "1. Source Entity: alice\n2. Relationship: is the CEO of\n3. Destination Entity: acme corp\n"
+                "1. Source Entity: acme corp\n2. Relationship: will acquire\n3. Destination Entity: widget inc\n"
+                "1. Source Entity: bob\n2. Relationship: is the CTO of\n3. Destination Entity: acme corp\n"
+                "1. Source Entity: john\n2. Relationship: works at\n3. Destination Entity: google\n"
+                "1. Source Entity: sarah\n2. Relationship: is married to\n3. Destination Entity: david\n"
+                "1. Source Entity: amazon\n2. Relationship: acquired\n3. Destination Entity: whole foods\n"
+                "1. Source Entity: elon musk\n2. Relationship: founded\n3. Destination Entity: spacex\n"
+                "1. Source Entity: jane\n2. Relationship: lives in\n3. Destination Entity: new york\n"
+                "1. Source Entity: microsoft\n2. Relationship: developed\n3. Destination Entity: windows\n"
+                "1. Source Entity: professor smith\n2. Relationship: teaches\n3. Destination Entity: mathematics\n"
+                "1. Source Entity: tesla\n2. Relationship: launched\n3. Destination Entity: model s\n"
+                "1. Source Entity: facebook\n2. Relationship: rebranded to\n3. Destination Entity: meta\n"
+                "1. Source Entity: bill gates\n2. Relationship: co-founded\n3. Destination Entity: microsoft\n"
+                "1. Source Entity: jon\n2. Relationship: is married to\n3. Destination Entity: sara\n"
+                "OUTPUT MODEL IN THIS FORMAT AND DETAIL\n"
+            ),
         )
     elif mode == "Build":
         prompt = ChatMessage(
-        role="user",
-        content=(
-            "Extract detailed entities representing problems and solutions without excessive redundancy from the following text:\n"
-            f"{merged_text}\n"
-            "Current entities:\n" + current_entities + "\n"
-            "Current relationships:\n" + current_relationships + "\n"
-            "BE DETAILED INITIALLY, THEN COMPARE TO CURRENT RELATIONSHIPS AND SEE IF FIT TO ADD NEW ONE\n"
-            "ENSURE 'SOLVED BY' RELATIONSHIPS ONLY CONNECT TO LEAF NODE SOLUTIONS THAT DO NOT REQUIRE FURTHER ACTIONS OR DEPENDENCIES\n"
-            "ENSURE 'DEPENDS ON' RELATIONSHIPS INDICATE UNSOLVED ISSUES\n"
-            "AVOID CREATING DUPLICATES OR AMBIGUOUS NODES. FOCUS ON CLEAR AND DISTINCT ENTITY NAMES.\n"
-            "MAKE SURE ENTITIES CLOSELY ALIGN TO TOPICS IN CONVERSATION, EVEN IF IT ISN'T EXPLICITLY TECHINCAL\n"
-            "Please provide the output strictly in the following format with no variance:\n"
-            "1. Source Entity: <problem/solution entity>\n"
-            "2. Relationship: <relationship>\n"
-            "3. Destination Entity: <problem/solution entity>\n"
-            "Ensure that each triplet is listed in the exact same format for consistency and avoid redundancy."
-            "\nExamples:\n"
-            "1. Source Entity: high latency\n2. Relationship: depends on\n3. Destination Entity: large dataset\n"
-            "1. Source Entity: large dataset\n2. Relationship: solved by\n3. Destination Entity: upgrading the server\n"
-            "1. Source Entity: slow response time\n2. Relationship: depends on\n3. Destination Entity: large dataset\n"
-            "1. Source Entity: slow response time\n2. Relationship: solved by\n3. Destination Entity: optimizing the query execution\n"
-            "1. Source Entity: low accuracy\n2. Relationship: solved by\n3. Destination Entity: gathering more diverse data\n"
-            "1. Source Entity: network issues\n2. Relationship: solved by\n3. Destination Entity: check connection regularly\n"
-            "1. Source Entity: data inconsistency\n2. Relationship: solved by\n3. Destination Entity: robust data validation process\n"
-            "1. Source Entity: recent security breach\n2. Relationship: solved by\n3. Destination Entity: enhancing security measures and conducting regular audits\n"
-            "1. Source Entity: poor performance\n2. Relationship: depends on\n3. Destination Entity: inefficient code\n"
-            "1. Source Entity: poor performance\n2. Relationship: solved by\n3. Destination Entity: optimizing the query execution\n"
-            "1. Source Entity: software bugs\n2. Relationship: solved by\n3. Destination Entity: debugging\n"
-            "1. Source Entity: system crashes\n2. Relationship: depends on\n3. Destination Entity: outdated software\n"
-            "1. Source Entity: system crashes\n2. Relationship: solved by\n3. Destination Entity: updating software to the latest version\n"
-            "1. Source Entity: user complaints\n2. Relationship: solved by\n3. Destination Entity: user training\n"
-            "1. Source Entity: user complaints\n2. Relationship: solved by\n3. Destination Entity: updating the user guide\n"
-            "OUTPUT MODEL IN THIS FORMAT AND DETAIL\n"
+            role="user",
+            content=(
+                "Extract detailed entities representing problems and solutions without excessive redundancy from the following text:\n"
+                f"{merged_text}\n"
+                "Current entities:\n" + current_entities + "\n"
+                "Current relationships:\n" + current_relationships + "\n"
+                "BE DETAILED INITIALLY, THEN COMPARE TO CURRENT RELATIONSHIPS AND SEE IF FIT TO ADD NEW ONE\n"
+                "ENSURE 'SOLVED BY' RELATIONSHIPS ONLY CONNECT TO LEAF NODE SOLUTIONS THAT DO NOT REQUIRE FURTHER ACTIONS OR DEPENDENCIES\n"
+                "ENSURE 'DEPENDS ON' RELATIONSHIPS INDICATE UNSOLVED ISSUES\n"
+                "TRY TO KEEP ENTITIES SHORT \n"
+                "AVOID CREATING DUPLICATES OR AMBIGUOUS NODES. FOCUS ON CLEAR AND DISTINCT ENTITY NAMES.\n"
+                "MAKE SURE ENTITIES CLOSELY ALIGN TO TOPICS IN CONVERSATION, EVEN IF IT ISN'T EXPLICITLY TECHINCAL\n"
+                "Please provide the output strictly in the following format with no variance:\n"
+                "1. Source Entity: <problem/solution entity>\n"
+                "2. Relationship: <relationship>\n"
+                "3. Destination Entity: <problem/solution entity>\n"
+                "Ensure that each triplet is listed in the exact same format for consistency and avoid redundancy."
+                "\nExamples:\n"
+                "1. Source Entity: high latency\n2. Relationship: depends on\n3. Destination Entity: large dataset\n"
+                "1. Source Entity: large dataset\n2. Relationship: solved by\n3. Destination Entity: upgrading the server\n"
+                "1. Source Entity: slow response time\n2. Relationship: depends on\n3. Destination Entity: large dataset\n"
+                "1. Source Entity: slow response time\n2. Relationship: solved by\n3. Destination Entity: optimizing the query execution\n"
+                "1. Source Entity: low accuracy\n2. Relationship: solved by\n3. Destination Entity: gathering more diverse data\n"
+                "1. Source Entity: network issues\n2. Relationship: solved by\n3. Destination Entity: check connection regularly\n"
+                "1. Source Entity: data inconsistency\n2. Relationship: solved by\n3. Destination Entity: robust data validation process\n"
+                "1. Source Entity: recent security breach\n2. Relationship: solved by\n3. Destination Entity: enhancing security measures and conducting regular audits\n"
+                "1. Source Entity: poor performance\n2. Relationship: depends on\n3. Destination Entity: inefficient code\n"
+                "1. Source Entity: poor performance\n2. Relationship: solved by\n3. Destination Entity: optimizing the query execution\n"
+                "1. Source Entity: software bugs\n2. Relationship: solved by\n3. Destination Entity: debugging\n"
+                "1. Source Entity: system crashes\n2. Relationship: depends on\n3. Destination Entity: outdated software\n"
+                "1. Source Entity: system crashes\n2. Relationship: solved by\n3. Destination Entity: updating software to the latest version\n"
+                "1. Source Entity: user complaints\n2. Relationship: solved by\n3. Destination Entity: user training\n"
+                "1. Source Entity: user complaints\n2. Relationship: solved by\n3. Destination Entity: updating the user guide\n"
+                "OUTPUT MODEL IN THIS FORMAT AND DETAIL\n"
+            ),
         )
-    )
-
 
     response = llm.chat(
         messages=[
             ChatMessage(role="system", content="You are a helpful assistant."),
-            prompt
+            prompt,
         ]
     )
     structured_response = response.message.content.strip()
