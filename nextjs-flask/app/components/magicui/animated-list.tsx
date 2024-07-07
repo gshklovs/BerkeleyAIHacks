@@ -32,11 +32,13 @@ export const AnimatedList = React.memo(
     return (
       <div className={`flex flex-col items-center gap-4 ${className}`}>
         <AnimatePresence>
-          {childrenArray.map((item) => (
-            <AnimatedListItem key={(item as ReactElement).key}>
-              {item}
-            </AnimatedListItem>
-          ))}
+          {childrenArray.map((item, index) => {
+            const key =
+              typeof item === "string" || typeof item === "number"
+                ? item
+                : index;
+            return <AnimatedListItem key={key}>{item}</AnimatedListItem>;
+          })}
         </AnimatePresence>
       </div>
     );

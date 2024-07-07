@@ -52,7 +52,7 @@ export default function AudioRecorder() {
     try {
       const formData = new FormData();
       formData.append("file", audioChunk, "audio.wav");
-
+      console.log("Sending audio data at:", new Date().toLocaleTimeString());
       const response = await axios.post(
         "http://localhost:5328/api/record_and_build",
         formData,

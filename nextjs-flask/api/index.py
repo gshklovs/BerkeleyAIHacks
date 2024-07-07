@@ -132,13 +132,7 @@ def new_meeting():
 
 @app.route("/api/graph")
 def graph():
-    if not conn.is_connected():
-        return "Not connected to database", 500
-    cursor = conn.cursor()
-    cursor.execute(
-        f"SELECT * FROM {config['SINGLESTORE_DB']} WHERE sessionId={session['session_id']}"
-    )
-    return cursor.fetchall()
+    return graphdb.execute_query("MATCH (n) RETURN n")
 
 
 @app.route("/api/speech_to_text", methods=["POST"])  # needs work
@@ -224,7 +218,7 @@ def record_and_build():
     app.logger.info(f"Previous entities: {prev_entities}")
     prev_relationships = global_relationships.copy()
     app.logger.info(f"Previous relationships: {prev_relationships}")
-    mode = "Converse"
+    mode = "Build"
     triplets, global_entities, global_relationships = (
         extract_entities_and_relationships(
             merged_text, mode, global_entities, global_relationships
@@ -258,11 +252,20 @@ def record_and_build():
                 )
             tx.commit()
     app.logger.info("Entities and relationships created in database")
-    return "DONE"
+    app.logger.info(f"Remaining entities: {remaining_entities}")
+    app.logger.info(f"Remaining relationships: {remaining_relationships}")
+
+    return json.dumps(
+        {
+            "entities": list(remaining_entities),
+            "relationships": list(remaining_relationships),
+        }
+    )
 
 
 @app.route("/api/delete_all", methods=["POST"])
 def delete_nodes():
+    global prev_text, global_entities, global_relationships
     prev_text = ""
     global_entities = set()
     global_relationships = []
